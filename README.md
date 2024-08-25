@@ -8,8 +8,9 @@ This Python script is designed to format IR files for the [Flipper-IRDB](https:/
 - Provides a GUI for easy interaction using PyQt5.
 
 ## Installation
-Clone this repository and install the required Python packages:
+Clone this repository and install the required Python package:
+
 ```bash
 git clone https://github.com/yourusername/Flipper-IR-Formatter.git
 cd Flipper-IR-Formatter
-pip install -r requirements.txt
+pip install pyqt5
