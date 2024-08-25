@@ -32,6 +32,10 @@ Ensure you have Python 3.6 or higher installed on your system.
 ### 3. Install PyQt5
 
 
+To install PyQt5, open a terminal or command prompt and run the following command:
+
+pip install PyQt5
+
 
 
 ## Using the Application
