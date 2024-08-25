@@ -33,17 +33,29 @@ Ensure you have Python 3.6 or higher installed on your system.
 
 
 
+
 ## Using the Application
 
-    Select IR File: Click the "Browse" button to select the .ir file you want to format.
-    Choose Device Type: Select the appropriate device type from the dropdown menu (e.g., TV, Audio, AC).
-    Specify Save Directory: Click "Browse Save Directory" to choose where the formatted file will be saved.
-    Enter Device Information:
-        Brand: Input the brand name of the device.
-        Remote Model: Input the model number/name of the remote.
-        Device Model(s): (Optional) Enter the model number(s) of the device(s) controlled by the remote.
-    Process File: Click the "Process File" button to format and save the IR file.
-    Progress and Logs: Monitor the progress bar and output text area for status updates and any messages.
+- **Select IR File:** 
+  - Click the "Browse" button to select the .ir file you want to format.
+
+- **Choose Device Type:** 
+  - Select the appropriate device type from the dropdown menu (e.g., TV, Audio, AC).
+
+- **Specify Save Directory:** 
+  - Click "Browse Save Directory" to choose where the formatted file will be saved.
+
+- **Enter Device Information:**
+  - **Brand:** Input the brand name of the device.
+  - **Remote Model:** Input the model number/name of the remote.
+  - **Device Model(s):** (Optional) Enter the model number(s) of the device(s) controlled by the remote.
+
+- **Process File:** 
+  - Click the "Process File" button to format and save the IR file.
+
+- **Progress and Logs:** 
+  - Monitor the progress bar and output text area for status updates and any messages.
+
 
 - The formatted IR file will be saved in the specified directory, organized under the chosen device type. The file will be named following the pattern:
 
