@@ -1,69 +1,44 @@
 # Flipper IR Formatter
 
-A Python GUI application designed to format IR files for the [Flipper-IRDB](https://github.com/Lucaslhm/Flipper-IRDB) project. This tool standardizes button names and organizes IR files into appropriate directories, streamlining the process of adding new remotes to the database.
+A web-based and Python GUI tool designed to format IR files for the [Flipper-IRDB](https://github.com/Lucaslhm/Flipper-IRDB) project. This formatter helps standardize button names and organizes IR files into appropriate directories, streamlining the process of adding new remotes to the database.
 
 ## Features
 
-- **User-Friendly GUI**: Intuitive interface built with PyQt5 for easy interaction.
-- **Button Name Normalization**: Automatically maps various button name formats to standardized names.
-- **Flexible Saving Options**: Allows users to select custom save directories and device types.
-- **Error Handling**: Provides clear messages for invalid inputs and processing errors.
+- **User-Friendly Web Tool**: Easily accessible and intuitive web-based formatter—no installation required! Try it here: [Web Formatter](https://jaylikesbunda.github.io/Flipper-IR-Formatter/).
+- **Button Name Normalization**: Automatically maps various button name formats to standardized names for consistent formatting.
+- **Flexible Saving Options**: In the desktop version, users can select custom save directories and device types.
+- **Error Handling**: Clear error messages for invalid inputs or processing issues.
 - **Compatibility**: Supports raw and parsed IR signal formats.
 
-## Installation
+## Recommended: Use the Web Formatter
 
-Follow these steps to set up and run the Flipper IR Formatter on your system.
+We highly recommend using the web version of the Flipper IR Formatter for ease of use. It requires no installation, works directly in your browser, and provides the same functionality as the desktop app. 
+
+[Click here to use the Web Formatter](https://jaylikesbunda.github.io/Flipper-IR-Formatter/)
+
+## Python GUI Installation (Optional)
+
+For those who prefer the desktop version, follow these instructions:
 
 ### 1. Download the Latest Release
 
-- Navigate to the [Releases](https://github.com/jaylikesbunda/Flipper-IR-Formatter/releases) page of this repository.
+- Go to the [Releases](https://github.com/jaylikesbunda/Flipper-IR-Formatter/releases) page.
 - Download the latest release archive.
 - Extract the contents to your desired location.
 
 ### 2. Install Python
 
-Ensure you have Python 3.6 or higher installed on your system.
+Ensure you have Python 3.6 or higher installed.
 
-- **Download Python**: Visit the official [Python Downloads](https://www.python.org/downloads/) page.
+- **Download Python**: Visit [Python Downloads](https://www.python.org/downloads/).
 - **Installation Instructions**:
-  - Follow the provided instructions for your operating system (Windows, macOS, or Linux).
-  - During installation, make sure to check the option to add Python to your system's PATH.
+  - Follow the instructions for your OS (Windows, macOS, or Linux).
+  - Check the option to add Python to your system's PATH during installation.
 
 ### 3. Install PyQt5
 
+Run the following command to install PyQt5:
 
-To install PyQt5, open a terminal or command prompt and run the following command:
-
+```bash
 pip install PyQt5
-
-
-
-## Using the Application
-
-- **Select IR File:** 
-  - Click the "Browse" button to select the .ir file you want to format.
-
-- **Choose Device Type:** 
-  - Select the appropriate device type from the dropdown menu (e.g., TV, Audio, AC).
-
-- **Specify Save Directory:** 
-  - Click "Browse Save Directory" to choose where the formatted file will be saved.
-
-- **Enter Device Information:**
-  - **Brand:** Input the brand name of the device.
-  - **Remote Model:** Input the model number/name of the remote.
-  - **Device Model(s):** (Optional) Enter the model number(s) of the device(s) controlled by the remote.
-
-- **Process File:** 
-  - Click the "Process File" button to format and save the IR file.
-
-- **Progress and Logs:** 
-  - Monitor the progress bar and output text area for status updates and any messages.
-
-
-- The formatted IR file will be saved in the specified directory, organized under the chosen device type. The file will be named following the pattern:
-
-- Brand_RemoteModel.ir
-
-- Example: Samsung_AA59-00741A.ir
 
