@@ -12,7 +12,10 @@
 
         <!-- File selection -->
         <label for="file-input">Step 1: Select the .ir file you want to format</label>
-        <input type="file" id="file-input" accept=".ir">
+		<div class="file-input-wrapper">
+		  <input type="file" id="file-input" accept=".ir">
+		  <label for="file-input">Choose a file...</label>
+		</div>
         <button id="process-btn" onclick="processIRFile()">Process File</button>
 
         <!-- Device type -->
@@ -131,14 +134,19 @@
 		</datalist>
 
 
-        <input id="remote-model" type="text" placeholder="Remote Model">
-        <input id="device-model" type="text" placeholder="Device Model (optional)">
+        <input id="remote-model" type="text" placeholder="Remote Model E.g., AA59-00741A">
+        <input id="device-model" type="text" placeholder="Device Model E.g., UN55NU7100 (optional)">
 
         <!-- Theme Toggle Button at the bottom -->
         <div class="theme-toggle">
             <button id="theme-toggle-button">Switch to Dark Mode</button>
         </div>
     </div>
+
+    <h1 style="text-align: center; margin-top: 40px;">
+        This tool formats IR files for the 
+        <a href="https://github.com/Lucaslhm/Flipper-IRDB" style="color: #FF9300;">Flipper-IRDB</a>
+    </h1>
 
     <script src="script.js"></script>
 </body>
