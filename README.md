@@ -12,7 +12,7 @@ A web-based and Python GUI tool designed to format IR files for the [Flipper-IRD
 
 ## Recommended: Use the Web Formatter
 
-We highly recommend using the web version of the Flipper IR Formatter for ease of use. It requires no installation, works directly in your browser, and provides the same functionality as the desktop app. 
+I highly recommend using the web version of the Flipper IR Formatter for ease of use. It requires no installation, works directly in your browser, and provides the same functionality as the desktop app. 
 
 [Click here to use the Web Formatter](https://jaylikesbunda.github.io/Flipper-IR-Formatter/)
 
