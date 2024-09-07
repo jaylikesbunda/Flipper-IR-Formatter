@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipper IRDB Formatter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <div class="container">
+        <h1>Flipper IRDB Formatter</h1>
+
+        <!-- File selection -->
+        <label for="file-input">Step 1: Select the .ir file you want to format</label>
+        <input type="file" id="file-input" accept=".ir">
+        <button id="process-btn" onclick="processIRFile()">Process File</button>
+
+        <!-- Device type -->
+        <label for="device-type">Step 2: Select the device type</label>
+        <select id="device-type">
+            <option>TV</option>
+            <option>Audio</option>
+            <option>AC</option>
+            <option>DVD Player</option>
+            <option>Projector</option>
+            <option>Set-Top Box</option>
+            <option>Fan</option>
+            <option>Lights</option>
+            <option>Gaming Console</option>
+            <option>Soundbar</option>
+            <option>Blu-ray Player</option>
+            <option>Satellite Receiver</option>
+            <option>Home Theater</option>
+            <option>Camera</option>
+            <option>Smart Home</option>
+            <option>Other</option>
+        </select>
+
+        <!-- Brand and other details -->
+        <label for="brand">Step 3: Enter device details</label>
+        <input id="brand" type="text" placeholder="E.g., Samsung" list="brands-list">
+		<datalist id="brands-list">
+			<option value="Samsung">
+			<option value="Sony">
+			<option value="LG">
+			<option value="Panasonic">
+			<option value="Philips">
+			<option value="Sharp">
+			<option value="Toshiba">
+			<option value="Vizio">
+			<option value="Hisense">
+			<option value="Mitsubishi">
+			<option value="RCA">
+			<option value="Sanyo">
+			<option value="Pioneer">
+			<option value="JVC">
+			<option value="Denon">
+			<option value="Yamaha">
+			<option value="Onkyo">
+			<option value="Bose">
+			<option value="Harman Kardon">
+			<option value="Polk Audio">
+			<option value="Marantz">
+			<option value="Nakamichi">
+			<option value="Apple">
+			<option value="Google">
+			<option value="Amazon">
+			<option value="Microsoft">
+			<option value="PlayStation">
+			<option value="Xbox">
+			<option value="Nintendo">
+			<option value="Canon">
+			<option value="Nikon">
+			<option value="Fujifilm">
+			<option value="Olympus">
+			<option value="Leica">
+			<option value="Logitech">
+			<option value="Huawei">
+			<option value="HTC">
+			<option value="Motorola">
+			<option value="OnePlus">
+			<option value="Xiaomi">
+			<option value="Oppo">
+			<option value="Realme">
+			<option value="Tecno">
+			<option value="Vivo">
+			<option value="Bang & Olufsen">
+			<option value="Bowers & Wilkins">
+			<option value="Sennheiser">
+			<option value="Klipsch">
+			<option value="Sonos">
+			<option value="JBL">
+			<option value="Marshall">
+			<option value="Polaroid">
+			<option value="Casio">
+			<option value="Kodak">
+			<option value="GoPro">
+			<option value="Fitbit">
+			<option value="Ring">
+			<option value="Nest">
+			<option value="TP-Link">
+			<option value="Linksys">
+			<option value="Netgear">
+			<option value="Asus">
+			<option value="Acer">
+			<option value="Dell">
+			<option value="HP">
+			<option value="Lenovo">
+			<option value="Alienware">
+			<option value="Razer">
+			<option value="MSI">
+			<option value="EVGA">
+			<option value="DJI">
+			<option value="iRobot">
+			<option value="Dyson">
+			<option value="Shark">
+			<option value="KitchenAid">
+			<option value="Breville">
+			<option value="Nespresso">
+			<option value="Keurig">
+			<option value="Frigidaire">
+			<option value="Whirlpool">
+			<option value="Maytag">
+			<option value="Bosch">
+			<option value="TCL">
+			<option value="Insignia">
+			<option value="Roku">
+			<option value="Fire TV">
+			<option value="Chromecast">
+			<option value="Apple TV">
+		</datalist>
+
+
+        <input id="remote-model" type="text" placeholder="Remote Model">
+        <input id="device-model" type="text" placeholder="Device Model (optional)">
+
+        <!-- Theme Toggle Button at the bottom -->
+        <div class="theme-toggle">
+            <button id="theme-toggle-button">Switch to Dark Mode</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

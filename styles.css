@@ -1,0 +1,129 @@
+/* Color variables for flexibility */
+:root {
+    --flipper-orange: #FF9300;
+    --light-background: #f8f9fa;
+    --dark-background: #2e2e2e;
+    --light-text: #333;
+    --dark-text: #f8f9fa;
+    --light-container-bg: #ffffff;
+    --dark-container-bg: #3b3b3b;
+    --light-border: #e0e0e0;
+    --dark-border: #444;
+    --input-light-bg: #ffffff;
+    --input-dark-bg: #555;
+    --input-light-border: #ced4da;
+    --input-dark-border: #777;
+}
+
+/* Global Styles for Light and Dark Modes */
+body.light-mode {
+    background-color: var(--light-background);
+    color: var(--light-text);
+}
+
+body.dark-mode {
+    background-color: var(--dark-background);
+    color: var(--dark-text);
+}
+
+/* Container */
+.container {
+    max-width: 600px;
+    margin: 60px auto;
+    background-color: var(--light-container-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--light-border);
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+body.dark-mode .container {
+    background-color: var(--dark-container-bg);
+    border: 1px solid var(--dark-border);
+}
+
+/* Heading */
+h1 {
+    text-align: center;
+    color: inherit;  /* Inherit color based on theme */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Inputs, Select, and Textarea */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--input-light-border);
+    border-radius: 8px;
+    background-color: var(--input-light-bg);
+    color: #495057;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode input, 
+body.dark-mode select, 
+body.dark-mode textarea {
+    background-color: var(--input-dark-bg);
+    color: #fff;
+    border: 1px solid var(--input-dark-border);
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--flipper-orange);  /* Flipper Zero orange */
+    outline: none;
+}
+
+/* Buttons */
+button {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--flipper-orange);  /* Flipper Zero orange */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #e68200;  /* Darker orange for hover */
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #cc7600;  /* Even darker on click */
+    transform: translateY(0);
+}
+
+/* Dark Mode Button */
+body.dark-mode button {
+    background-color: var(--flipper-orange);
+    color: #fff;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.theme-toggle button {
+    background-color: var(--flipper-orange);  /* Flipper Zero orange */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle button:hover {
+    background-color: #e68200;
+}
