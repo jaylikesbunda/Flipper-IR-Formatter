@@ -17,27 +17,78 @@
 		  <label for="file-input">Choose a file...</label>
 		</div>
 
-        <!-- Device type -->
-        <label for="device-type">Step 2: Select the device type</label>
-        <select id="device-type">
-            <option>TV</option>
-            <option>Audio</option>
-            <option>AC</option>
-            <option>DVD Player</option>
-            <option>Projector</option>
-            <option>Set-Top Box</option>
-            <option>Fan</option>
-            <option>Lights</option>
-            <option>Gaming Console</option>
-            <option>Soundbar</option>
-            <option>Blu-ray Player</option>
-            <option>Satellite Receiver</option>
-            <option>Home Theater</option>
-            <option>Camera</option>
-            <option>Smart Home</option>
-            <option>Other</option>
-        </select>
-
+		<!-- Device type -->
+		<label for="device-type">Step 2: Select the device type</label>
+		<select id="device-type">
+			<optgroup label="Audio/Video Devices">
+				<option>TV</option>
+				<option>Projector</option>
+				<option>Monitor</option>
+				<option>DVD Player</option>
+				<option>Blu-ray Player</option>
+				<option>VCR</option>
+				<option>Laserdisc Player</option>
+				<option>CD Player</option>
+				<option>MiniDisc Player</option>
+				<option>Audio and Video Receiver</option>
+				<option>Soundbar</option>
+				<option>Home Theater</option>
+			</optgroup>
+			<optgroup label="TV Accessories">
+				<option>Set-Top Box</option>
+				<option>Cable Box</option>
+				<option>Satellite Receiver</option>
+				<option>Streaming Device</option>
+				<option>TV Tuner</option>
+				<option>DVB-T</option>
+			</optgroup>
+			<optgroup label="Smart Home and Appliances">
+				<option>Smart Home</option>
+				<option>AC</option>
+				<option>Fan</option>
+				<option>Air Purifier</option>
+				<option>Heater</option>
+				<option>Humidifier</option>
+				<option>Vacuum Cleaner</option>
+				<option>Window Cleaner</option>
+			</optgroup>
+			<optgroup label="Lighting">
+				<option>Lights</option>
+				<option>LED Lighting</option>
+			</optgroup>
+			<optgroup label="Computing and Gaming">
+				<option>Computer</option>
+				<option>Gaming Console</option>
+				<option>KVM</option>
+			</optgroup>
+			<optgroup label="Cameras and Security">
+				<option>Camera</option>
+				<option>CCTV</option>
+			</optgroup>
+			<optgroup label="Automotive">
+				<option>Car Multimedia</option>
+				<option>Head Unit</option>
+			</optgroup>
+			<optgroup label="Office Equipment">
+				<option>Digital Sign</option>
+				<option>Touchscreen Display</option>
+				<option>Whiteboard</option>
+				<option>Videoconferencing</option>
+			</optgroup>
+			<optgroup label="Home and Personal">
+				<option>Clock</option>
+				<option>Picture Frame</option>
+				<option>Bidet</option>
+				<option>Fireplace</option>
+			</optgroup>
+			<optgroup label="Miscellaneous">
+				<option>Universal TV Remote</option>
+				<option>Converter</option>
+				<option>Dust Collector</option>
+				<option>Toy</option>
+				<option>Other</option>
+			</optgroup>
+		</select>
         <!-- Brand and other details -->
         <label for="brand">Step 3: Enter device details</label>
         <input id="brand" type="text" placeholder="E.g., Samsung" list="brands-list">
