@@ -16,7 +16,6 @@
 		  <input type="file" id="file-input" accept=".ir">
 		  <label for="file-input">Choose a file...</label>
 		</div>
-        <button id="process-btn" onclick="processIRFile()">Process File</button>
 
         <!-- Device type -->
         <label for="device-type">Step 2: Select the device type</label>
@@ -136,6 +135,7 @@
 
         <input id="remote-model" type="text" placeholder="Remote Model E.g., AA59-00741A">
         <input id="device-model" type="text" placeholder="Device Model E.g., UN55NU7100 (optional)">
+        <button id="process-btn" onclick="processIRFile()">Process File</button>
 
         <!-- Theme Toggle Button at the bottom -->
         <div class="theme-toggle">
@@ -143,11 +143,10 @@
         </div>
     </div>
 
-    <h1 style="text-align: center; margin-top: 40px;">
-        This tool formats IR files for the 
-        <a href="https://github.com/Lucaslhm/Flipper-IRDB" style="color: #FF9300;">Flipper-IRDB</a>
-    </h1>
-
+	<h1 class="explanatory-text">
+		This tool formats IR files for the 
+		<a href="https://github.com/Lucaslhm/Flipper-IRDB">Flipper-IRDB</a>
+	</h1>
     <script src="script.js"></script>
 </body>
 </html>
