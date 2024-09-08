@@ -1,6 +1,7 @@
 # Flipper IR Formatter
 
 Do you have a bunch of cloned remotes you didn't use XRemote for and want to contribute to the IRDB but don't want to rename every button? Have I got the thing for you!
+
 A web-based and Python GUI tool designed to format IR files for the [Flipper-IRDB](https://github.com/Lucaslhm/Flipper-IRDB) project. This formatter helps standardize button names and organizes IR files into appropriate directories, streamlining the process of adding new remotes to the database.
 
 ## Features
