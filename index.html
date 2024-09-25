@@ -12,181 +12,186 @@
 
         <!-- File selection -->
         <label for="file-input">Step 1: Select the .ir file you want to format</label>
-		<div class="file-input-wrapper">
-		  <input type="file" id="file-input" accept=".ir">
-		  <label for="file-input">Choose a file...</label>
-		</div>
+        <div class="file-input-wrapper">
+            <input type="file" id="file-input" accept=".ir">
+            <label for="file-input">Choose a file...</label>
+        </div>
 
-		<!-- Device type -->
-		<label for="device-type">Step 2: Select the device type</label>
-		<select id="device-type">
-			<optgroup label="Audio/Video Devices">
-				<option>TV</option>
-				<option>Projector</option>
-				<option>Monitor</option>
-				<option>DVD Player</option>
-				<option>Blu-ray Player</option>
-				<option>VCR</option>
-				<option>Laserdisc Player</option>
-				<option>CD Player</option>
-				<option>MiniDisc Player</option>
-				<option>Audio and Video Receiver</option>
-				<option>Soundbar</option>
-				<option>Home Theater</option>
-			</optgroup>
-			<optgroup label="TV Accessories">
-				<option>Set-Top Box</option>
-				<option>Cable Box</option>
-				<option>Satellite Receiver</option>
-				<option>Streaming Device</option>
-				<option>TV Tuner</option>
-				<option>DVB-T</option>
-			</optgroup>
-			<optgroup label="Smart Home and Appliances">
-				<option>Smart Home</option>
-				<option>AC</option>
-				<option>Fan</option>
-				<option>Air Purifier</option>
-				<option>Heater</option>
-				<option>Humidifier</option>
-				<option>Vacuum Cleaner</option>
-				<option>Window Cleaner</option>
-			</optgroup>
-			<optgroup label="Lighting">
-				<option>Lights</option>
-				<option>LED Lighting</option>
-			</optgroup>
-			<optgroup label="Computing and Gaming">
-				<option>Computer</option>
-				<option>Gaming Console</option>
-				<option>KVM</option>
-			</optgroup>
-			<optgroup label="Cameras and Security">
-				<option>Camera</option>
-				<option>CCTV</option>
-			</optgroup>
-			<optgroup label="Automotive">
-				<option>Car Multimedia</option>
-				<option>Head Unit</option>
-			</optgroup>
-			<optgroup label="Office Equipment">
-				<option>Digital Sign</option>
-				<option>Touchscreen Display</option>
-				<option>Whiteboard</option>
-				<option>Videoconferencing</option>
-			</optgroup>
-			<optgroup label="Home and Personal">
-				<option>Clock</option>
-				<option>Picture Frame</option>
-				<option>Bidet</option>
-				<option>Fireplace</option>
-			</optgroup>
-			<optgroup label="Miscellaneous">
-				<option>Universal TV Remote</option>
-				<option>Converter</option>
-				<option>Dust Collector</option>
-				<option>Toy</option>
-				<option>Other</option>
-			</optgroup>
-		</select>
+        <!-- Device type -->
+        <label for="device-type">Step 2: Select the device type</label>
+        <select id="device-type">
+            <optgroup label="Audio/Video Devices">
+                <option>TV</option>
+                <option>Projector</option>
+                <option>Monitor</option>
+                <option>DVD Player</option>
+                <option>Blu-ray Player</option>
+                <option>VCR</option>
+                <option>Laserdisc Player</option>
+                <option>CD Player</option>
+                <option>MiniDisc Player</option>
+                <option>Audio and Video Receiver</option>
+                <option>Soundbar</option>
+                <option>Home Theater</option>
+            </optgroup>
+            <optgroup label="TV Accessories">
+                <option>Set-Top Box</option>
+                <option>Cable Box</option>
+                <option>Satellite Receiver</option>
+                <option>Streaming Device</option>
+                <option>TV Tuner</option>
+                <option>DVB-T</option>
+            </optgroup>
+            <optgroup label="Smart Home and Appliances">
+                <option>Smart Home</option>
+                <option>AC</option>
+                <option>Fan</option>
+                <option>Air Purifier</option>
+                <option>Heater</option>
+                <option>Humidifier</option>
+                <option>Vacuum Cleaner</option>
+                <option>Window Cleaner</option>
+            </optgroup>
+            <optgroup label="Lighting">
+                <option>Lights</option>
+                <option>LED Lighting</option>
+            </optgroup>
+            <optgroup label="Computing and Gaming">
+                <option>Computer</option>
+                <option>Gaming Console</option>
+                <option>KVM</option>
+            </optgroup>
+            <optgroup label="Cameras and Security">
+                <option>Camera</option>
+                <option>CCTV</option>
+            </optgroup>
+            <optgroup label="Automotive">
+                <option>Car Multimedia</option>
+                <option>Head Unit</option>
+            </optgroup>
+            <optgroup label="Office Equipment">
+                <option>Digital Sign</option>
+                <option>Touchscreen Display</option>
+                <option>Whiteboard</option>
+                <option>Videoconferencing</option>
+            </optgroup>
+            <optgroup label="Home and Personal">
+                <option>Clock</option>
+                <option>Picture Frame</option>
+                <option>Bidet</option>
+                <option>Fireplace</option>
+            </optgroup>
+            <optgroup label="Miscellaneous">
+                <option>Universal TV Remote</option>
+                <option>Converter</option>
+                <option>Dust Collector</option>
+                <option>Toy</option>
+                <option>Other</option>
+            </optgroup>
+        </select>
+
         <!-- Brand and other details -->
         <label for="brand">Step 3: Enter device details</label>
         <input id="brand" type="text" placeholder="E.g., Samsung" list="brands-list">
-		<datalist id="brands-list">
-			<option value="Samsung">
-			<option value="Sony">
-			<option value="LG">
-			<option value="Panasonic">
-			<option value="Philips">
-			<option value="Sharp">
-			<option value="Toshiba">
-			<option value="Vizio">
-			<option value="Hisense">
-			<option value="Mitsubishi">
-			<option value="RCA">
-			<option value="Sanyo">
-			<option value="Pioneer">
-			<option value="JVC">
-			<option value="Denon">
-			<option value="Yamaha">
-			<option value="Onkyo">
-			<option value="Bose">
-			<option value="Harman Kardon">
-			<option value="Polk Audio">
-			<option value="Marantz">
-			<option value="Nakamichi">
-			<option value="Apple">
-			<option value="Google">
-			<option value="Amazon">
-			<option value="Microsoft">
-			<option value="PlayStation">
-			<option value="Xbox">
-			<option value="Nintendo">
-			<option value="Canon">
-			<option value="Nikon">
-			<option value="Fujifilm">
-			<option value="Olympus">
-			<option value="Leica">
-			<option value="Logitech">
-			<option value="Huawei">
-			<option value="HTC">
-			<option value="Motorola">
-			<option value="OnePlus">
-			<option value="Xiaomi">
-			<option value="Oppo">
-			<option value="Realme">
-			<option value="Tecno">
-			<option value="Vivo">
-			<option value="Bang & Olufsen">
-			<option value="Bowers & Wilkins">
-			<option value="Sennheiser">
-			<option value="Klipsch">
-			<option value="Sonos">
-			<option value="JBL">
-			<option value="Marshall">
-			<option value="Polaroid">
-			<option value="Casio">
-			<option value="Kodak">
-			<option value="GoPro">
-			<option value="Fitbit">
-			<option value="Ring">
-			<option value="Nest">
-			<option value="TP-Link">
-			<option value="Linksys">
-			<option value="Netgear">
-			<option value="Asus">
-			<option value="Acer">
-			<option value="Dell">
-			<option value="HP">
-			<option value="Lenovo">
-			<option value="Alienware">
-			<option value="Razer">
-			<option value="MSI">
-			<option value="EVGA">
-			<option value="DJI">
-			<option value="iRobot">
-			<option value="Dyson">
-			<option value="Shark">
-			<option value="KitchenAid">
-			<option value="Breville">
-			<option value="Nespresso">
-			<option value="Keurig">
-			<option value="Frigidaire">
-			<option value="Whirlpool">
-			<option value="Maytag">
-			<option value="Bosch">
-			<option value="TCL">
-			<option value="Insignia">
-			<option value="Roku">
-			<option value="Fire TV">
-			<option value="Chromecast">
-			<option value="Apple TV">
-		</datalist>
+        <datalist id="brands-list">
+            <option value="Samsung">
+            <option value="Sony">
+            <option value="LG">
+            <option value="Panasonic">
+            <option value="Philips">
+            <option value="Sharp">
+            <option value="Toshiba">
+            <option value="Vizio">
+            <option value="Hisense">
+            <option value="Mitsubishi">
+            <option value="RCA">
+            <option value="Sanyo">
+            <option value="Pioneer">
+            <option value="JVC">
+            <option value="Denon">
+            <option value="Yamaha">
+            <option value="Onkyo">
+            <option value="Bose">
+            <option value="Harman Kardon">
+            <option value="Polk Audio">
+            <option value="Marantz">
+            <option value="Nakamichi">
+            <option value="Apple">
+            <option value="Google">
+            <option value="Amazon">
+            <option value="Microsoft">
+            <option value="PlayStation">
+            <option value="Xbox">
+            <option value="Nintendo">
+            <option value="Canon">
+            <option value="Nikon">
+            <option value="Fujifilm">
+            <option value="Olympus">
+            <option value="Leica">
+            <option value="Logitech">
+            <option value="Huawei">
+            <option value="HTC">
+            <option value="Motorola">
+            <option value="OnePlus">
+            <option value="Xiaomi">
+            <option value="Oppo">
+            <option value="Realme">
+            <option value="Tecno">
+            <option value="Vivo">
+            <option value="Bang & Olufsen">
+            <option value="Bowers & Wilkins">
+            <option value="Sennheiser">
+            <option value="Klipsch">
+            <option value="Sonos">
+            <option value="JBL">
+            <option value="Marshall">
+            <option value="Polaroid">
+            <option value="Casio">
+            <option value="Kodak">
+            <option value="GoPro">
+            <option value="Fitbit">
+            <option value="Ring">
+            <option value="Nest">
+            <option value="TP-Link">
+            <option value="Linksys">
+            <option value="Netgear">
+            <option value="Asus">
+            <option value="Acer">
+            <option value="Dell">
+            <option value="HP">
+            <option value="Lenovo">
+            <option value="Alienware">
+            <option value="Razer">
+            <option value="MSI">
+            <option value="EVGA">
+            <option value="DJI">
+            <option value="iRobot">
+            <option value="Dyson">
+            <option value="Shark">
+            <option value="KitchenAid">
+            <option value="Breville">
+            <option value="Nespresso">
+            <option value="Keurig">
+            <option value="Frigidaire">
+            <option value="Whirlpool">
+            <option value="Maytag">
+            <option value="Bosch">
+            <option value="TCL">
+            <option value="Insignia">
+            <option value="Roku">
+            <option value="Fire TV">
+            <option value="Chromecast">
+            <option value="Apple TV">
+        </datalist>
+        <input id="device-model" type="text" placeholder="Device Model E.g., UN55NU7100">
+        <input id="remote-model" type="text" placeholder="Remote Model E.g., AA59-00741A (optional)">
 
 
-        <input id="remote-model" type="text" placeholder="Remote Model E.g., AA59-00741A">
-        <input id="device-model" type="text" placeholder="Device Model E.g., UN55NU7100 (optional)">
-        <button id="process-btn" onclick="processIRFile()">Process File</button>
+        <!-- New input fields for link and description -->
+        <input id="device-link" type="url" placeholder="Device Link (optional)">
+        <textarea id="device-description" placeholder="Short Description (optional)"></textarea>
+
+        <button id="process-btn">Process File</button>
 
         <!-- Theme Toggle Button at the bottom -->
         <div class="theme-toggle">
@@ -194,10 +199,10 @@
         </div>
     </div>
 
-	<h1 class="explanatory-text">
-		This tool formats IR files for the 
-		<a href="https://github.com/Lucaslhm/Flipper-IRDB">Flipper-IRDB</a>
-	</h1>
+    <h1 class="explanatory-text">
+        This tool formats IR files for the 
+        <a href="https://github.com/Lucaslhm/Flipper-IRDB">Flipper-IRDB</a>
+    </h1>
     <script src="script.js"></script>
 </body>
 </html>
