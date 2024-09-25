@@ -1,518 +1,515 @@
-let database = [];
-let currentPage = 1;
-let itemsPerPage = 20;
-let debounceTimer;
-let currentResults = [];
+// Button name mapping per device type
+const buttonNameMapping = {
+    "TV": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "pw": "Power",
+        "p": "Power",
+        "on(?:_)?off": "Power",
+        "on/off": "Power",
+        "standby": "Power",
+        "stby": "Power",
+        "switch": "Power",
+        "sw": "Power",
+        "toggle": "Power",
+        "tgl": "Power",
+        "powr": "Power",
 
-document.addEventListener('DOMContentLoaded', function() {
-    loadDatabase();
-    setupEventListeners();
-});
+        // Volume Up
+        "vol(?:_)?up": "Vol_up",
+        "v(?:_)?up": "Vol_up",
+        "v(?:_)?\\+": "Vol_up",
+        "vu": "Vol_up",
+        "volume(?:_)?up": "Vol_up",
+        "vol(?:_)?increase": "Vol_up",
+        "vol(?:_)?inc": "Vol_up",
+        "vol(?:_)?\\+": "Vol_up",
+        "v\\+": "Vol_up",
+        "louder": "Vol_up",
+        "volume(?:_)?raise": "Vol_up",
+        "audio(?:_)?up": "Vol_up",
+        "au(?:_)?up": "Vol_up",
 
-function setupEventListeners() {
-    const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
-    const deviceTypeFilter = document.getElementById('deviceTypeFilter');
-    const brandFilter = document.getElementById('brandFilter');
-    const itemsPerPageSelect = document.getElementById('itemsPerPage');
-    const requestForm = document.getElementById('requestForm');
-    if (requestForm) {
-        requestForm.addEventListener('submit', submitIRRequest);
+        // Volume Down
+        "vol(?:_)?down": "Vol_dn",
+        "vol(?:_)?dn": "Vol_dn",
+        "v(?:_)?down": "Vol_dn",
+        "v(?:_)?dn": "Vol_dn",
+        "v(?:_)?\\-": "Vol_dn",
+        "vd": "Vol_dn",
+        "volume(?:_)?down": "Vol_dn",
+        "vol(?:_)?decrease": "Vol_dn",
+        "vol(?:_)?dec": "Vol_dn",
+        "vol(?:_)?dwn": "Vol_dn",
+        "vol(?:_)?\\-": "Vol_dn",
+        "v\\-": "Vol_dn",
+        "softer": "Vol_dn",
+        "volume(?:_)?lower": "Vol_dn",
+        "audio(?:_)?down": "Vol_dn",
+        "au(?:_)?dn": "Vol_dn",
+
+        // Channel Next
+        "ch(?:_)?up": "Ch_next",
+        "ch(?:_)?\\+": "Ch_next",
+        "c(?:_)?up": "Ch_next",
+        "c\\+": "Ch_next",
+        "cu": "Ch_next",
+        "channel(?:_)?up": "Ch_next",
+        "ch(?:_)?next": "Ch_next",
+        "next(?:_)?channel": "Ch_next",
+        "channel(?:_)?forward": "Ch_next",
+        "ch(?:_)?fwd": "Ch_next",
+        "prog(?:_)?up": "Ch_next",
+        "program(?:_)?up": "Ch_next",
+        "p(?:_)?up": "Ch_next",
+        "pu": "Ch_next",
+
+        // Channel Previous
+        "ch(?:_)?down": "Ch_prev",
+        "ch(?:_)?dn": "Ch_prev",
+        "ch(?:_)?\\-": "Ch_prev",
+        "c(?:_)?down": "Ch_prev",
+        "c(?:_)?dn": "Ch_prev",
+        "c\\-": "Ch_prev",
+        "cd": "Ch_prev",
+        "channel(?:_)?down": "Ch_prev",
+        "ch(?:_)?prev": "Ch_prev",
+        "previous(?:_)?channel": "Ch_prev",
+        "channel(?:_)?back": "Ch_prev",
+        "ch(?:_)?bk": "Ch_prev",
+        "prog(?:_)?down": "Ch_prev",
+        "program(?:_)?down": "Ch_prev",
+        "p(?:_)?down": "Ch_prev",
+        "p(?:_)?dn": "Ch_prev",
+        "pd": "Ch_prev",
+
+        // Mute
+        "mute": "Mute",
+        "mu": "Mute",
+        "mt": "Mute",
+        "silence": "Mute",
+        "sil": "Mute",
+        "quiet": "Mute",
+        "qt": "Mute",
+        "audio(?:_)?off": "Mute",
+        "sound(?:_)?off": "Mute",
+        "no(?:_)?sound": "Mute",
+        "mte": "Mute",
+    },
+    "Audio": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "pw": "Power",
+        "p": "Power",
+        "on(?:_)?off": "Power",
+        "on/off": "Power",
+        "standby": "Power",
+        "stby": "Power",
+        "switch": "Power",
+        "sw": "Power",
+        "toggle": "Power",
+        "tgl": "Power",
+        "powr": "Power",
+
+        // Volume Up
+        "vol(?:_)?up": "Vol_up",
+        "v(?:_)?up": "Vol_up",
+        "v(?:_)?\\+": "Vol_up",
+        "vu": "Vol_up",
+        "volume(?:_)?up": "Vol_up",
+        "vol(?:_)?increase": "Vol_up",
+        "vol(?:_)?inc": "Vol_up",
+        "vol(?:_)?\\+": "Vol_up",
+        "v\\+": "Vol_up",
+        "louder": "Vol_up",
+        "volume(?:_)?raise": "Vol_up",
+        "audio(?:_)?up": "Vol_up",
+        "au(?:_)?up": "Vol_up",
+
+        // Volume Down
+        "vol(?:_)?down": "Vol_dn",
+        "vol(?:_)?dn": "Vol_dn",
+        "v(?:_)?down": "Vol_dn",
+        "v(?:_)?dn": "Vol_dn",
+        "v(?:_)?\\-": "Vol_dn",
+        "vd": "Vol_dn",
+        "volume(?:_)?down": "Vol_dn",
+        "vol(?:_)?decrease": "Vol_dn",
+        "vol(?:_)?dec": "Vol_dn",
+        "vol(?:_)?dwn": "Vol_dn",
+        "vol(?:_)?\\-": "Vol_dn",
+        "v\\-": "Vol_dn",
+        "softer": "Vol_dn",
+        "volume(?:_)?lower": "Vol_dn",
+        "audio(?:_)?down": "Vol_dn",
+        "au(?:_)?dn": "Vol_dn",
+
+        // Next
+        "next": "Next",
+        "nxt": "Next",
+        "nx": "Next",
+        "n": "Next",
+        "skip(?:_)?fwd": "Next",
+        "sk(?:_)?f": "Next",
+        "forward": "Next",
+        "fwd": "Next",
+        "ff": "Next",
+        "fast(?:_)?forward": "Next",
+        "track(?:_)?forward": "Next",
+        "tr(?:_)?fwd": "Next",
+        "next(?:_)?track": "Next",
+        "skip(?:_)?ahead": "Next",
+
+        // Previous
+        "prev(?:ious)?": "Prev",
+        "prv": "Prev",
+        "pr": "Prev",
+        "skip(?:_)?back": "Prev",
+        "sk(?:_)?b": "Prev",
+        "rewind": "Prev",
+        "rew": "Prev",
+        "rw": "Prev",
+        "back": "Prev",
+        "bk": "Prev",
+        "track(?:_)?back": "Prev",
+        "tr(?:_)?bk": "Prev",
+        "previous(?:_)?track": "Prev",
+        "skip(?:_)?previous": "Prev",
+
+        // Play
+        "play": "Play",
+        "pl": "Play",
+        "ply": "Play",
+        "start": "Play",
+        "strt": "Play",
+        "resume": "Play",
+        "rsm": "Play",
+        "begin": "Play",
+        "bgn": "Play",
+        "playback": "Play",
+        "pb": "Play",
+
+        // Pause
+        "pause": "Pause",
+        "pse": "Pause",
+        "ps": "Pause",
+        "hold": "Pause",
+        "hld": "Pause",
+        "stop": "Pause",
+        "stp": "Pause",
+        "freeze": "Pause",
+        "frz": "Pause",
+        "suspend": "Pause",
+        "spnd": "Pause",
+        "break": "Pause",
+        "brk": "Pause",
+
+        // Mute
+        "mute": "Mute",
+        "mu": "Mute",
+        "mt": "Mute",
+        "silence": "Mute",
+        "sil": "Mute",
+        "quiet": "Mute",
+        "qt": "Mute",
+        "audio(?:_)?off": "Mute",
+        "sound(?:_)?off": "Mute",
+        "no(?:_)?sound": "Mute",
+        "mte": "Mute",
+    },
+    "AC": {
+        // Off
+        "off": "Off",
+        "of": "Off",
+        "power": "Off",
+        "shutdown": "Off",
+        "shtdwn": "Off",
+        "shut(?:_)?down": "Off",
+        "power(?:_)?off": "Off",
+        "pwr(?:_)?off": "Off",
+        "pw(?:_)?off": "Off",
+        "p(?:_)?off": "Off",
+        "turn(?:_)?off": "Off",
+        "switch(?:_)?off": "Off",
+        "sw(?:_)?off": "Off",
+
+        // Dehumidify
+        "dh": "Dh",
+        "dehumidify": "Dh",
+        "dehum": "Dh",
+        "dhum": "Dh",
+        "dry": "Dh",
+        "dehumid": "Dh",
+        "moisture(?:_)?remove": "Dh",
+        "mst(?:_)?rmv": "Dh",
+        "humidity(?:_)?control": "Dh",
+        "hum(?:_)?ctrl": "Dh",
+        "water(?:_)?remove": "Dh",
+        "wtr(?:_)?rmv": "Dh",
+
+        // Cool High
+        "cool(?:_)?hi": "Cool_hi",
+        "ch": "Cool_hi",
+        "cool(?:_)?high": "Cool_hi",
+        "high(?:_)?cool": "Cool_hi",
+        "hi(?:_)?cool": "Cool_hi",
+        "max(?:_)?cool": "Cool_hi",
+        "cool(?:_)?max": "Cool_hi",
+        "strong(?:_)?cool": "Cool_hi",
+        "str(?:_)?cool": "Cool_hi",
+
+        // Cool Low
+        "cool(?:_)?lo": "Cool_lo",
+        "cl": "Cool_lo",
+        "cool(?:_)?low": "Cool_lo",
+        "low(?:_)?cool": "Cool_lo",
+        "min(?:_)?cool": "Cool_lo",
+        "cool(?:_)?min": "Cool_lo",
+        "gentle(?:_)?cool": "Cool_lo",
+        "gnt(?:_)?cool": "Cool_lo",
+
+        // Heat High
+        "heat(?:_)?hi": "Heat_hi",
+        "hh": "Heat_hi",
+        "heat(?:_)?high": "Heat_hi",
+        "high(?:_)?heat": "Heat_hi",
+        "hi(?:_)?heat": "Heat_hi",
+        "max(?:_)?heat": "Heat_hi",
+        "heat(?:_)?max": "Heat_hi",
+        "strong(?:_)?heat": "Heat_hi",
+        "str(?:_)?heat": "Heat_hi",
+
+        // Heat Low
+        "heat(?:_)?lo": "Heat_lo",
+        "hl": "Heat_lo",
+        "heat(?:_)?low": "Heat_lo",
+        "low(?:_)?heat": "Heat_lo",
+        "min(?:_)?heat": "Heat_lo",
+        "heat(?:_)?min": "Heat_lo",
+        "gentle(?:_)?heat": "Heat_lo",
+        "gnt(?:_)?heat": "Heat_lo",
     }
-    if (searchInput) searchInput.addEventListener('input', debounceSearch);
-    if (searchButton) searchButton.addEventListener('click', instantSearch);
-    if (deviceTypeFilter) deviceTypeFilter.addEventListener('change', instantSearch);
-    if (brandFilter) brandFilter.addEventListener('change', instantSearch);
-    if (itemsPerPageSelect) itemsPerPageSelect.addEventListener('change', changeItemsPerPage);
+};
 
-    window.addEventListener('resize', debounce(updateLayout, 250));
-}
+// Function to get device type key
+function getDeviceTypeKey(selectedDeviceType) {
+    const deviceTypeMapping = {
+        // TVs and related devices
+        "TV": "TV",
+        "Projector": "TV",
+        "Monitor": "TV",
+        "Set-Top Box": "TV",
+        "Cable Box": "TV",
+        "Satellite Receiver": "TV",
+        "Streaming Device": "TV",
+        "TV Tuner": "TV",
+        "DVB-T": "TV",
 
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        // Audio devices
+        "Audio and Video Receiver": "Audio",
+        "Soundbar": "Audio",
+        "Home Theater": "Audio",
+        "DVD Player": "Audio",
+        "Blu-ray Player": "Audio",
+        "CD Player": "Audio",
+        "MiniDisc Player": "Audio",
+        "VCR": "Audio",
+        "Laserdisc Player": "Audio",
+
+        // Air Conditioners
+        "AC": "AC",
+        "Air Conditioner": "AC",
+
+        // Default to TV if not found
     };
+    return deviceTypeMapping[selectedDeviceType] || "TV"; // Default to "TV"
 }
 
-const manuallyFulfilledRequests = [
-    { brand: 'Sony', model: 'MHC-GSX75', deviceType: 'Audio Mixer/Stereo' },
-    // Add more manually fulfilled requests here
-];
-function isRequestFulfilled(request, database) {
-    // Helper function to normalize strings for comparison
-    const normalize = (str) => str ? str.toLowerCase().replace(/[^a-z0-9]/g, '') : '';
-    
-    // Helper function to check if two strings are similar
-    const isSimilar = (str1, str2) => {
-        const norm1 = normalize(str1);
-        const norm2 = normalize(str2);
-        return norm1.includes(norm2) || norm2.includes(norm1);
-    };
-    
-    // Check if the request is manually marked as fulfilled
-    const isManuallyFulfilled = manuallyFulfilledRequests.some(manualEntry => 
-        isSimilar(manualEntry.brand, request.brand) &&
-        isSimilar(manualEntry.model, request.model) &&
-        (!manualEntry.deviceType || isSimilar(manualEntry.deviceType, request.deviceType))
-    );
-    
-    if (isManuallyFulfilled) {
-        return true;
+// Function to normalize button names based on device type
+function normalizeButtonName(buttonName, deviceTypeKey) {
+    let mapping = buttonNameMapping[deviceTypeKey];
+    if (!mapping) {
+        mapping = {}; // Default to empty mapping
     }
-    
-    // Proceed with existing logic
-    return database.some(item => {
-        const brandMatch = isSimilar(item.brand, request.brand);
-        const modelMatch = isSimilar(item.model, request.model);
-        const deviceTypeDifferent = request.deviceType && item.device_type && !isSimilar(item.device_type, request.deviceType);
-        
-        // If brand and model match
-        if (brandMatch && modelMatch) {
-            // If device types are directly opposing, do not consider fulfilled
-            if (deviceTypeDifferent) {
-                return false;
-            }
-            // Else, consider fulfilled
-            return true;
+    let cleanedName = buttonName.toLowerCase().replace(/[_\-\s]/g, "");
+    for (const pattern in mapping) {
+        if (new RegExp(`^${pattern}$`).test(cleanedName)) {
+            return mapping[pattern];
         }
-        return false;
-    });
+    }
+    return buttonName; // Return original name if no mapping found
 }
 
+// Parse IR file content into data structure
+function parseIRFile(content) {
+    const lines = content.split('\n');
+    const irData = [];
+    let currentButton = {};
 
-function displayIRRequests() {
-    const requestsList = document.getElementById('requestsList');
-    requestsList.innerHTML = '<p>Loading requests...</p>';
-
-    console.log("Fetching IR requests...");
-
-    db.collection("irRequests").orderBy("timestamp", "desc").limit(25).get() // Increased limit to 25
-        .then((querySnapshot) => {
-            console.log("Received query snapshot:", querySnapshot.size);
-            requestsList.innerHTML = '';
-            querySnapshot.forEach((doc) => {
-                console.log("Processing document:", doc.id);
-                const data = doc.data();
-                const requestItem = document.createElement('div');
-                requestItem.className = 'request-item';
-                
-                // Check if the request has been fulfilled
-                const fulfilled = isRequestFulfilled(data, database);
-                
-                requestItem.innerHTML = `
-                    <p><strong>Brand:</strong> ${data.brand}</p>
-                    <p><strong>Model:</strong> ${data.model}</p>
-                    <p><strong>Device Type:</strong> ${data.deviceType}</p>
-                    <p><strong>Requested:</strong> ${data.timestamp.toDate().toLocaleString()}</p>
-                    ${fulfilled ? '<p><strong>Status:</strong> ✅ Added to database</p>' : ''}
-                `;
-                requestsList.appendChild(requestItem);
-            });
-            if (querySnapshot.empty) {
-                console.log("No requests found");
-                requestsList.innerHTML = '<p>No requests found.</p>';
+    lines.forEach((line) => {
+        line = line.trim();
+        if (line.startsWith('name:')) {
+            if (Object.keys(currentButton).length) {
+                irData.push(currentButton);
+                currentButton = {};
             }
-        })
-        .catch((error) => {
-            console.error("Error fetching requests: ", error);
-            requestsList.innerHTML = '<p>Error loading requests. Please try again later.</p>';
-        });
-}
-
-function submitIRRequest(e) {
-    e.preventDefault();
-
-    const brand = document.getElementById('brandInput').value;
-    const model = document.getElementById('modelInput').value;
-    const deviceType = document.getElementById('deviceTypeInput').value;
-    const requestStatus = document.getElementById('requestStatus');
-
-    console.log("Submitting request:", { brand, model, deviceType });
-
-    // Add the request to Firestore
-    db.collection("irRequests").add({
-        brand: brand,
-        model: model,
-        deviceType: deviceType,
-        timestamp: new Date()
-    })
-    .then((docRef) => {
-        console.log("Request submitted with ID:", docRef.id);
-        requestStatus.textContent = "Request submitted successfully!";
-        document.getElementById('requestForm').reset();
-        // Refresh the requests list
-        displayIRRequests();
-    })
-    .catch((error) => {
-        console.error("Error adding document: ", error);
-        requestStatus.textContent = "Error submitting request. Please try again.";
-    });
-}
-
-function debounceSearch() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(instantSearch, 300);  // Increased debounce time for better performance
-}
-
-function instantSearch() {
-    searchDatabase();
-    window.scrollTo(0, 0);  // Scroll to top after search
-}
-
-function changeItemsPerPage() {
-    const itemsPerPageSelect = document.getElementById('itemsPerPage');
-    if (itemsPerPageSelect) {
-        itemsPerPage = parseInt(itemsPerPageSelect.value);
-        currentPage = 1;  // Reset to first page
-        displayResults();
-    }
-}
-
-function loadDatabase() {
-    const loadingElement = document.getElementById('loading');
-    if (loadingElement) loadingElement.style.display = 'block';
-
-    fetch('flipper_irdb_database.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            database = data;
-            if (loadingElement) loadingElement.style.display = 'none';
-            console.log('Database loaded successfully');
-            populateFilters();
-            searchDatabase();
-        })
-        .catch(error => {
-            console.error('Error loading database:', error);
-            if (loadingElement) loadingElement.style.display = 'none';
-            const resultsElement = document.getElementById('results');
-            if (resultsElement) resultsElement.innerHTML = '<p>Error loading database. Please try again later.</p>';
-        });
-}
-
-function downloadFile(url, filename) {
-    const downloadStatus = document.getElementById('downloadStatus');
-    if (downloadStatus) downloadStatus.textContent = 'Preparing file...';
-
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.blob();
-        })
-        .then(blob => {
-            if (isIOS) {
-                handleIOSDownload(blob, filename, downloadStatus);
-            } else {
-                handleRegularDownload(blob, filename, downloadStatus);
-            }
-        })
-        .catch(error => {
-            console.error('Download failed:', error);
-            if (downloadStatus) downloadStatus.textContent = 'Download failed. Please try again.';
-        });
-}
-
-function handleIOSDownload(blob, filename, downloadStatus) {
-    // Attempt to use Web Share API if available
-    if (navigator.share) {
-        const file = new File([blob], filename, { type: blob.type });
-        navigator.share({
-            files: [file],
-            title: filename,
-        }).then(() => {
-            downloadStatus.textContent = 'File shared successfully!';
-        }).catch(error => {
-            console.error('Sharing failed', error);
-            fallbackIOSDownload(blob, filename, downloadStatus);
-        });
-    } else {
-        fallbackIOSDownload(blob, filename, downloadStatus);
-    }
-}
-
-function fallbackIOSDownload(blob, filename, downloadStatus) {
-    // For small files, use data URI
-    if (blob.size < 5 * 1024 * 1024) { // 5MB limit
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const a = document.createElement('a');
-            a.href = e.target.result;
-            a.download = filename;
-            a.click();
-            downloadStatus.textContent = 'File ready. If download doesn\'t start, tap and hold the link to save.';
-        };
-        reader.readAsDataURL(blob);
-    } else {
-        // For larger files, open in new tab with instructions
-        const blobUrl = URL.createObjectURL(blob);
-        window.open(blobUrl, '_blank');
-        downloadStatus.textContent = 'File opened in new tab. Use browser menu to save.';
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 60000); // Clean up after 1 minute
-    }
-
-    // For text-based files, offer copy to clipboard
-    if (blob.type.startsWith('text/')) {
-        blob.text().then(text => {
-            const copyButton = document.createElement('button');
-            copyButton.textContent = 'Copy to Clipboard';
-            copyButton.onclick = () => {
-                navigator.clipboard.writeText(text).then(() => {
-                    copyButton.textContent = 'Copied!';
-                    setTimeout(() => copyButton.textContent = 'Copy to Clipboard', 2000);
-                });
-            };
-            downloadStatus.appendChild(copyButton);
-        });
-    }
-}
-
-function handleRegularDownload(blob, filename, downloadStatus) {
-    const blobUrl = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = blobUrl;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-        URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(a);
-    }, 100);
-    if (downloadStatus) downloadStatus.textContent = 'Download complete!';
-}
-
-function populateFilters() {
-    const deviceTypes = new Set(database.map(item => item.device_type));
-    const brands = new Set(database.map(item => item.brand));
-
-    populateSelect('deviceTypeFilter', deviceTypes);
-    populateSelect('brandFilter', brands);
-}
-
-function populateSelect(id, options) {
-    const select = document.getElementById(id);
-    if (!select) return;
-
-    select.innerHTML = '<option value="">All</option>';  // Reset and add 'All' option
-
-    Array.from(options).sort().forEach(option => {
-        if (option) {
-            const optionElement = document.createElement('option');
-            optionElement.value = option;
-            optionElement.textContent = option;
-            select.appendChild(optionElement);
+            const userButtonName = line.split(': ')[1];
+            currentButton['name'] = userButtonName;
+        } else if (line.startsWith('type:')) {
+            currentButton['type'] = line.split(': ')[1];
+        } else if (line.startsWith('protocol:')) {
+            currentButton['protocol'] = line.split(': ')[1];
+        } else if (line.startsWith('address:')) {
+            currentButton['address'] = line.split(': ')[1];
+        } else if (line.startsWith('command:')) {
+            currentButton['command'] = line.split(': ')[1];
+        } else if (line.startsWith('frequency:')) {
+            currentButton['frequency'] = line.split(': ')[1];
+        } else if (line.startsWith('duty_cycle:')) {
+            currentButton['duty_cycle'] = line.split(': ')[1];
+        } else if (line.startsWith('data:')) {
+            currentButton['data'] = line.split(': ')[1];
         }
     });
+
+    if (Object.keys(currentButton).length) {
+        irData.push(currentButton);
+    }
+
+    return irData;
 }
 
-function searchDatabase() {
-    const searchInput = document.getElementById('searchInput');
-    const deviceTypeFilter = document.getElementById('deviceTypeFilter');
-    const brandFilter = document.getElementById('brandFilter');
+// Create IR content with normalized button names and a single comment line
+function createIRContent(irData, brand, model, deviceType, deviceModel = "", deviceTypeKey, deviceLink = "", deviceDescription = "") {
+    let content = `Filetype: IR signals file\nVersion: 1\n#\n`;
 
-    if (!searchInput || !deviceTypeFilter || !brandFilter) return;
+    // Concatenate all additional information into one long comment line
+    let infoItems = [
+        brand ? `Brand: ${brand}` : "",
+        model ? `Remote Model: ${model}` : "",
+        deviceModel ? `Device Model: ${deviceModel}` : "",
+        deviceType ? `Device Type: ${deviceType}` : "",
+        deviceLink ? `Link: ${deviceLink}` : "",
+        deviceDescription ? `Description: ${deviceDescription}` : ""
+    ].filter(item => item).join(", ");
 
-    const searchTerm = searchInput.value.toLowerCase();
-    const deviceType = deviceTypeFilter.value;
-    const brand = brandFilter.value;
+    // Add the single comment line
+    content += `# ${infoItems}\n#\n`;
 
-    const searchTerms = searchTerm.split(/\s+/).filter(term => term.length > 0);
-
-    currentResults = database.filter(item => {
-        const itemString = `${item.brand} ${item.model} ${item.device_type} ${item.additional_info || ''}`.toLowerCase();
-        const matchesSearch = searchTerms.every(term => itemString.includes(term));
-        const matchesDeviceType = deviceType === '' || item.device_type === deviceType;
-        const matchesBrand = brand === '' || item.brand === brand;
-
-        return matchesSearch && matchesDeviceType && matchesBrand;
+    irData.forEach(button => {
+        const normalizedButtonName = normalizeButtonName(button.name, deviceTypeKey);
+        content += `name: ${normalizedButtonName}\n`;
+        content += `type: ${button.type}\n`;
+        if (button.type === "parsed") {
+            content += `protocol: ${button.protocol}\n`;
+            content += `address: ${button.address}\n`;
+            content += `command: ${button.command}\n`;
+        } else if (button.type === "raw") {
+            content += `frequency: ${button.frequency}\n`;
+            content += `duty_cycle: ${button.duty_cycle}\n`;
+            content += `data: ${button.data}\n`;
+        }
+        content += "#\n";
     });
 
-    currentPage = 1;
-    displayResults();
-    updateStats(currentResults.length);
-    updateSuggestions(searchTerm);
+    return content;
 }
 
-function displayResults() {
-    const resultsDiv = document.getElementById('results');
-    if (!resultsDiv) return;
+function processIRFile() {
+    const fileInput = document.getElementById("file-input");
+    const file = fileInput.files[0];
 
-    resultsDiv.innerHTML = '';
-
-    if (currentResults.length === 0) {
-        resultsDiv.innerHTML = '<p>No results found.</p>';
-        updatePagination(0);
+    if (!file) {
+        alert("Please select a .ir file.");
         return;
     }
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const pageResults = currentResults.slice(startIndex, endIndex);
+    const brand = document.getElementById("brand").value.trim();
+    const remoteModel = document.getElementById("remote-model").value.trim();
+    const deviceModel = document.getElementById("device-model").value.trim();
+    const deviceType = document.getElementById("device-type").value;
+    const deviceTypeKey = getDeviceTypeKey(deviceType);
+    const deviceLink = document.getElementById("device-link").value.trim();
+    const deviceDescription = document.getElementById("device-description").value.trim();
 
-    pageResults.forEach(item => {
-        const resultItem = document.createElement('div');
-        resultItem.className = 'result-item';
-        
-        const downloadUrl = `https://raw.githubusercontent.com/Lucaslhm/Flipper-IRDB/main/${item.path.replace(/\\/g, '/')}`;
+    if (!brand || !deviceModel || !deviceType) {
+        alert("Please enter brand, device model, and select a device type.");
+        return;
+    }
 
-        let additionalInfoHtml = '';
-        if (item.additional_info) {
-            if (item.additional_info.length > 50) {
-                additionalInfoHtml = `
-                    <p><strong>Additional Info:</strong> 
-                        <span class="info-text">${item.additional_info.substring(0, 50)}
-                            <span class="more-text" style="display:none">${item.additional_info.substring(50)}</span>
-                        </span>
-                        <button class="read-more">Read More</button>
-                    </p>`;
-            } else {
-                additionalInfoHtml = `<p><strong>Additional Info:</strong> ${item.additional_info}</p>`;
-            }
-        }
+    const reader = new FileReader();
 
-        resultItem.innerHTML = `
-            <h3>${item.brand} ${item.model}</h3>
-            <p><strong>Type:</strong> ${item.device_type}</p>
-            <p><strong>File:</strong> ${item.filename}</p>
-            ${additionalInfoHtml}
-            <button class="download-button">Download IR File</button>
-        `;
+    reader.onload = function(event) {
+        const fileContent = event.target.result;
+        const irData = parseIRFile(fileContent);
+        const processedContent = createIRContent(
+            irData,
+            brand,
+            remoteModel,
+            deviceType,
+            deviceModel,
+            deviceTypeKey,
+            deviceLink,
+            deviceDescription
+        );
+        const filename = `${brand}_${deviceModel}.ir`;  // Updated filename
+        downloadFile(processedContent, filename);
+    };
 
-        const downloadButton = resultItem.querySelector('.download-button');
-        downloadButton.addEventListener('click', () => downloadFile(downloadUrl, item.filename));
+    reader.readAsText(file);
+}
 
-        const readMoreButton = resultItem.querySelector('.read-more');
-        if (readMoreButton) {
-            readMoreButton.addEventListener('click', function() {
-                const infoText = this.parentNode.querySelector('.info-text');
-                const moreText = this.parentNode.querySelector('.more-text');
-                if (moreText.style.display === 'none') {
-                    moreText.style.display = 'inline';
-                    this.textContent = 'Read Less';
-                } else {
-                    moreText.style.display = 'none';
-                    this.textContent = 'Read More';
-                }
-            });
-        }
+function downloadFile(content, filename) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+}
 
-        resultsDiv.appendChild(resultItem);
+// DOM Elements and Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const themeToggleButton = document.getElementById('theme-toggle-button');
+    const fileInput = document.getElementById('file-input');
+    const processButton = document.getElementById('process-btn');
+
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        body.classList.remove('light-mode', 'dark-mode');
+        body.classList.add(savedTheme);
+        updateButtonText(savedTheme);
+    }
+
+    // Toggle between light and dark modes
+    themeToggleButton.addEventListener('click', () => {
+        const currentTheme = body.classList.contains('light-mode') ? 'light-mode' : 'dark-mode';
+        const newTheme = currentTheme === 'light-mode' ? 'dark-mode' : 'light-mode';
+
+        body.classList.remove(currentTheme);
+        body.classList.add(newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateButtonText(newTheme);
     });
 
-    updatePagination(currentResults.length);
-}
+    // File conversion
+    processButton.addEventListener('click', processIRFile);
 
-function updatePagination(totalResults) {
-    const paginationDiv = document.getElementById('pagination');
-    const prevButton = document.getElementById('prevPage');
-    const nextButton = document.getElementById('nextPage');
-    const currentPageSpan = document.getElementById('currentPage');
-
-    if (!paginationDiv || !prevButton || !nextButton || !currentPageSpan) return;
-
-    const totalPages = Math.ceil(totalResults / itemsPerPage);
-
-    prevButton.disabled = currentPage === 1;
-    nextButton.disabled = currentPage === totalPages;
-
-    currentPageSpan.textContent = `Page ${currentPage} of ${totalPages}`;
-
-    prevButton.onclick = () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayResults();
-            window.scrollTo(0, 0);  // Scroll to top when changing page
-        }
-    };
-
-    nextButton.onclick = () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayResults();
-            window.scrollTo(0, 0);  // Scroll to top when changing page
-        }
-    };
-
-    paginationDiv.style.display = totalPages > 1 ? 'flex' : 'none';
-}
-
-function updateStats(resultCount) {
-    const statsDiv = document.getElementById('stats');
-    if (statsDiv) statsDiv.textContent = `Found ${resultCount} result${resultCount !== 1 ? 's' : ''}`;
-}
-
-function updateSuggestions(searchTerm) {
-    const suggestionsDiv = document.getElementById('suggestions');
-    if (!suggestionsDiv) return;
-
-    suggestionsDiv.innerHTML = '';
-    suggestionsDiv.style.display = 'none';
-
-    if (searchTerm.length < 2) return;
-
-    const searchTerms = searchTerm.split(/\s+/).filter(term => term.length > 0);
-
-    const suggestions = database
-        .filter(item => {
-            const itemString = `${item.brand} ${item.model} ${item.device_type}`.toLowerCase();
-            return searchTerms.every(term => itemString.includes(term));
-        })
-        .slice(0, 5);
-
-    if (suggestions.length > 0) {
-        suggestions.forEach(item => {
-            const suggestionItem = document.createElement('div');
-            suggestionItem.className = 'suggestion-item';
-            suggestionItem.textContent = `${item.brand} ${item.model} (${item.device_type})`;
-            suggestionItem.addEventListener('click', () => {
-                const searchInput = document.getElementById('searchInput');
-                if (searchInput) {
-                    searchInput.value = `${item.brand} ${item.model}`;
-                    suggestionsDiv.style.display = 'none';
-                    searchDatabase();
-                }
-            });
-            suggestionsDiv.appendChild(suggestionItem);
-        });
-        suggestionsDiv.style.display = 'block';
-    }
-}
-
-function updateLayout() {
-    const resultsDiv = document.getElementById('results');
-    if (!resultsDiv) return;
-
-    const windowWidth = window.innerWidth;
-    
-    if (windowWidth < 768) {
-        resultsDiv.style.gridTemplateColumns = '1fr';
-    } else {
-        resultsDiv.style.gridTemplateColumns = 'repeat(auto-fill, minmax(300px, 1fr))';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    const requestRemoteBtn = document.getElementById('requestRemoteBtn');
-    
-    requestRemoteBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const irRequestForm = document.getElementById('irRequestForm');
-        irRequestForm.scrollIntoView({ behavior: 'smooth' });
+    // Update file input label
+    fileInput.addEventListener('change', (event) => {
+        const fileName = event.target.files[0]?.name || 'Choose a file...';
+        fileInput.nextElementSibling.textContent = fileName;
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    displayIRRequests();
-});
+// Update button text based on the current theme
+function updateButtonText(theme) {
+    const themeToggleButton = document.getElementById('theme-toggle-button');
+    themeToggleButton.textContent = theme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+}
