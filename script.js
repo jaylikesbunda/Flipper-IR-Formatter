@@ -197,8 +197,6 @@ const buttonNameMapping = {
         "ps": "Pause",
         "hold": "Pause",
         "hld": "Pause",
-        "stop": "Pause",
-        "stp": "Pause",
         "freeze": "Pause",
         "frz": "Pause",
         "suspend": "Pause",
