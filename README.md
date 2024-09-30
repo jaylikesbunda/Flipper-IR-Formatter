@@ -4,7 +4,7 @@ Do you have a bunch of cloned remotes you didn't use XRemote for and want to con
 
 A web-based and Python GUI tool designed to format IR files for the [Flipper-IRDB](https://github.com/Lucaslhm/Flipper-IRDB) project. This formatter helps standardize button names and organizes IR files into appropriate directories, streamlining the process of adding new remotes to the database.
 
-[Naming Standards](/naming.md)
+Uses a custom designed [Naming Standard](/naming.md) to be as compatible as possible 
 
 
 ## Features
