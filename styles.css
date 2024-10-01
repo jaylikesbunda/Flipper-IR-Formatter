@@ -29,6 +29,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Center the container vertically */
 }
 
 body.light-mode {
@@ -53,6 +54,7 @@ body.dark-mode {
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    margin-bottom: 20px; /* Add margin to separate from explanatory text */
 }
 
 body.dark-mode .container {
@@ -83,7 +85,7 @@ h1 {
     text-align: center;
     color: var(--flipper-orange);
     font-size: 32px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     position: relative;
@@ -100,6 +102,18 @@ h1::after {
     height: 4px;
     background-color: var(--flipper-orange);
     border-radius: 2px;
+}
+
+/* Instructions */
+.instructions {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: var(--light-text);
+}
+
+body.dark-mode .instructions {
+    color: var(--dark-text);
 }
 
 /* Inputs, Select, and Textarea */
@@ -226,8 +240,7 @@ button:active {
     cursor: pointer;
 }
 
-.file-input-wrapper::after {
-    content: 'Choose a file...';
+.file-input-wrapper label {
     display: block;
     padding: 15px 20px;
     background-color: var(--flipper-orange);
@@ -236,18 +249,39 @@ button:active {
     text-align: center;
     font-weight: 600;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-.file-input-wrapper:hover::after {
+.file-input-wrapper:hover label {
     background-color: var(--flipper-orange-hover);
 }
 
-/* Styles for the explanatory text */
+/* Naming Scheme Link */
+.naming-scheme-link {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.naming-scheme-link a {
+    color: var(--flipper-orange);
+    text-decoration: none;
+}
+
+.naming-scheme-link a:hover {
+    text-decoration: underline;
+}
+
+/* Explanatory Text */
 .explanatory-text {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--light-text);
+}
+
+body.dark-mode .explanatory-text {
     color: var(--dark-text);
-	margin-left: 100px;
 }
 
 .explanatory-text a {
@@ -263,7 +297,6 @@ button:active {
 @media (max-width: 768px) {
     body {
         padding: 20px;
-        flex-direction: column;
     }
 
     .container {
@@ -279,16 +312,15 @@ button:active {
         margin-bottom: 20px;
     }
 
-    input, select, textarea, button, .file-input-wrapper::after {
-        width: 100%;
+    .instructions {
+        font-size: 14px;
+    }
+
+    input, select, textarea, button, .file-input-wrapper label {
         font-size: 16px;
         padding: 12px 16px;
         margin-bottom: 15px;
         box-sizing: border-box;
-    }
-
-    .file-input-wrapper {
-        margin-bottom: 15px;
     }
 
     .theme-toggle {
@@ -300,12 +332,9 @@ button:active {
         font-size: 14px;
     }
 
-    /* Adjust explanatory text for mobile */
     .explanatory-text {
-        margin-top: 30px;
-        margin-left: 0;
-        font-size: 16px;
-        padding: 0 20px;
+        font-size: 14px;
+        margin-top: 15px;
     }
 }
 
@@ -319,7 +348,11 @@ button:active {
         margin-bottom: 15px;
     }
 
-    input, select, textarea, button, .file-input-wrapper::after {
+    .instructions {
+        font-size: 13px;
+    }
+
+    input, select, textarea, button, .file-input-wrapper label {
         font-size: 14px;
         padding: 10px 14px;
     }
@@ -330,13 +363,6 @@ button:active {
     }
 
     .explanatory-text {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
-.container > *:nth-child(1) { animation-delay: 0.1s; }
-.container > *:nth-child(2) { animation-delay: 0.2s; }
-.container > *:nth-child(3) { animation-delay: 0.3s; }
-.container > *:nth-child(4) { animation-delay: 0.4s; }
-.container > *:nth-child(5) { animation-delay: 0.5s; }
-
-

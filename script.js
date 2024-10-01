@@ -1,303 +1,539 @@
-// Button name mapping per device type
+// Button name mapping per device type.
+// This mapping is used to normalize various button names to standard names for different device types.
 const buttonNameMapping = {
     "TV": {
         // Power
         "power": "Power",
         "pwr": "Power",
+        "powr": "Power",
+        "pover": "Power",
+        "powe": "Power",
         "pw": "Power",
         "p": "Power",
-        "on(?:_)?off": "Power",
-        "on/off": "Power",
-        "standby": "Power",
-        "stby": "Power",
-        "switch": "Power",
-        "sw": "Power",
-        "toggle": "Power",
-        "tgl": "Power",
-        "powr": "Power",
 
-        // Volume Up
-        "vol(?:_)?up": "Vol_up",
-        "v(?:_)?up": "Vol_up",
-        "v(?:_)?\\+": "Vol_up",
-        "vu": "Vol_up",
-        "volume(?:_)?up": "Vol_up",
-        "vol(?:_)?increase": "Vol_up",
-        "vol(?:_)?inc": "Vol_up",
-        "vol(?:_)?\\+": "Vol_up",
-        "v\\+": "Vol_up",
+        // On
+        "turnon": "On",
+        "poweron": "On",
+        "start": "On",
+        "trnon": "On",
+        "pwron": "On",
+        "strt": "On",
+
+        // Off
+        "turnoff": "Off",
+        "poweroff": "Off",
+        "shutdown": "Off",
+        "trnoff": "Off",
+        "pwroff": "Off",
+        "shtdwn": "Off",
+
+        // Vol_up
+        "volumeup": "Vol_up",
+        "vol\\+": "Vol_up",
         "louder": "Vol_up",
-        "volume(?:_)?raise": "Vol_up",
-        "audio(?:_)?up": "Vol_up",
-        "au(?:_)?up": "Vol_up",
+        "audioup": "Vol_up",
+        "volup": "Vol_up",
+        "vol\\^": "Vol_up",
+        "v\\+": "Vol_up",
 
-        // Volume Down
-        "vol(?:_)?down": "Vol_dn",
-        "vol(?:_)?dn": "Vol_dn",
-        "v(?:_)?down": "Vol_dn",
-        "v(?:_)?dn": "Vol_dn",
-        "v(?:_)?\\-": "Vol_dn",
-        "vd": "Vol_dn",
-        "volume(?:_)?down": "Vol_dn",
-        "vol(?:_)?decrease": "Vol_dn",
-        "vol(?:_)?dec": "Vol_dn",
-        "vol(?:_)?dwn": "Vol_dn",
-        "vol(?:_)?\\-": "Vol_dn",
+        // Vol_dn
+        "volumedown": "Vol_dn",
+        "vol\\-": "Vol_dn",
+        "quieter": "Vol_dn",
+        "audiodown": "Vol_dn",
+        "voldwn": "Vol_dn",
+        "voldn": "Vol_dn",
+        "voldown": "Vol_dn",
         "v\\-": "Vol_dn",
-        "softer": "Vol_dn",
-        "volume(?:_)?lower": "Vol_dn",
-        "audio(?:_)?down": "Vol_dn",
-        "au(?:_)?dn": "Vol_dn",
 
-        // Channel Next
-        "ch(?:_)?up": "Ch_next",
-        "ch(?:_)?\\+": "Ch_next",
-        "c(?:_)?up": "Ch_next",
+        // Ch_next
+        "channelup": "Ch_next",
+        "ch\\+": "Ch_next",
+        "prog\\+": "Ch_next",
+        "tuneup": "Ch_next",
+        "chnlup": "Ch_next",
+        "ch\\^": "Ch_next",
         "c\\+": "Ch_next",
-        "cu": "Ch_next",
-        "channel(?:_)?up": "Ch_next",
-        "ch(?:_)?next": "Ch_next",
-        "next(?:_)?channel": "Ch_next",
-        "channel(?:_)?forward": "Ch_next",
-        "ch(?:_)?fwd": "Ch_next",
-        "prog(?:_)?up": "Ch_next",
-        "program(?:_)?up": "Ch_next",
-        "p(?:_)?up": "Ch_next",
-        "pu": "Ch_next",
+        "chan\\+": "Ch_next",
 
-        // Channel Previous
-        "ch(?:_)?down": "Ch_prev",
-        "ch(?:_)?dn": "Ch_prev",
-        "ch(?:_)?\\-": "Ch_prev",
-        "c(?:_)?down": "Ch_prev",
-        "c(?:_)?dn": "Ch_prev",
+        // Ch_prev
+        "channeldown": "Ch_prev",
+        "ch\\-": "Ch_prev",
+        "prog\\-": "Ch_prev",
+        "tunedown": "Ch_prev",
+        "chnldwn": "Ch_prev",
+        "chdn": "Ch_prev",
         "c\\-": "Ch_prev",
-        "cd": "Ch_prev",
-        "channel(?:_)?down": "Ch_prev",
-        "ch(?:_)?prev": "Ch_prev",
-        "previous(?:_)?channel": "Ch_prev",
-        "channel(?:_)?back": "Ch_prev",
-        "ch(?:_)?bk": "Ch_prev",
-        "prog(?:_)?down": "Ch_prev",
-        "program(?:_)?down": "Ch_prev",
-        "p(?:_)?down": "Ch_prev",
-        "p(?:_)?dn": "Ch_prev",
-        "pd": "Ch_prev",
+        "chan\\-": "Ch_prev",
 
         // Mute
-        "mute": "Mute",
-        "mu": "Mute",
-        "mt": "Mute",
-        "silence": "Mute",
-        "sil": "Mute",
-        "quiet": "Mute",
-        "qt": "Mute",
-        "audio(?:_)?off": "Mute",
-        "sound(?:_)?off": "Mute",
-        "no(?:_)?sound": "Mute",
+        "mutetoggle": "Mute",
+        "silent": "Mute",
+        "audiomute": "Mute",
+        "mut": "Mute",
+        "slnt": "Mute",
         "mte": "Mute",
+
+        // Source
+        "input": "Source",
+        "tvav": "Source",
+        "mode": "Source",
+        "signal": "Source",
+        "src": "Source",
+        "inpt": "Source",
+
+        // Menu
+        "home": "Menu",
+        "smarthub": "Menu",
+        "settings": "Menu",
+        "mnu": "Menu",
+        "stngs": "Menu",
+        "hme": "Menu",
+
+        // Exit
+        "back": "Exit",
+        "return": "Exit",
+        "close": "Exit",
+        "ext": "Exit",
+        "bck": "Exit",
+        "rtrn": "Exit",
+        "cls": "Exit",
+
+        // Up
+        "arrowup": "Up",
+        "navigateup": "Up",
+        "u": "Up",
+        "\\^": "Up",
+        "navup": "Up",
+
+        // Down
+        "arrowdown": "Down",
+        "navigatedown": "Down",
+        "d": "Down",
+        "v": "Down",
+        "arrowdn": "Down",
+        "navdwn": "Down",
+
+        // Left
+        "arrowleft": "Left",
+        "navigateleft": "Left",
+        "l": "Left",
+        "<": "Left",
+        "arrowlft": "Left",
+        "navlft": "Left",
+
+        // Right
+        "arrowright": "Right",
+        "navigateright": "Right",
+        "r": "Right",
+        ">": "Right",
+        "arrowrgt": "Right",
+        "navrgt": "Right",
+
+        // Ok
+        "enter": "Ok",
+        "select": "Ok",
+        "confirm": "Ok",
+        "entr": "Ok",
+        "slct": "Ok",
+        "cnfrm": "Ok",
     },
     "Audio": {
         // Power
         "power": "Power",
         "pwr": "Power",
+        "powr": "Power",
+        "pover": "Power",
+        "powe": "Power",
         "pw": "Power",
         "p": "Power",
-        "on(?:_)?off": "Power",
-        "on/off": "Power",
-        "standby": "Power",
-        "stby": "Power",
-        "switch": "Power",
-        "sw": "Power",
-        "toggle": "Power",
-        "tgl": "Power",
-        "powr": "Power",
 
-        // Volume Up
-        "vol(?:_)?up": "Vol_up",
-        "v(?:_)?up": "Vol_up",
-        "v(?:_)?\\+": "Vol_up",
-        "vu": "Vol_up",
-        "volume(?:_)?up": "Vol_up",
-        "vol(?:_)?increase": "Vol_up",
-        "vol(?:_)?inc": "Vol_up",
-        "vol(?:_)?\\+": "Vol_up",
-        "v\\+": "Vol_up",
+        // On
+        "turnon": "On",
+        "poweron": "On",
+        "start": "On",
+        "trnon": "On",
+        "pwron": "On",
+        "strt": "On",
+
+        // Off
+        "turnoff": "Off",
+        "poweroff": "Off",
+        "shutdown": "Off",
+        "trnoff": "Off",
+        "pwroff": "Off",
+        "shtdwn": "Off",
+
+        // Vol_up
+        "volumeup": "Vol_up",
+        "vol\\+": "Vol_up",
         "louder": "Vol_up",
-        "volume(?:_)?raise": "Vol_up",
-        "audio(?:_)?up": "Vol_up",
-        "au(?:_)?up": "Vol_up",
+        "audioup": "Vol_up",
+        "volup": "Vol_up",
+        "vol\\^": "Vol_up",
+        "v\\+": "Vol_up",
 
-        // Volume Down
-        "vol(?:_)?down": "Vol_dn",
-        "vol(?:_)?dn": "Vol_dn",
-        "v(?:_)?down": "Vol_dn",
-        "v(?:_)?dn": "Vol_dn",
-        "v(?:_)?\\-": "Vol_dn",
-        "vd": "Vol_dn",
-        "volume(?:_)?down": "Vol_dn",
-        "vol(?:_)?decrease": "Vol_dn",
-        "vol(?:_)?dec": "Vol_dn",
-        "vol(?:_)?dwn": "Vol_dn",
-        "vol(?:_)?\\-": "Vol_dn",
+        // Vol_dn
+        "volumedown": "Vol_dn",
+        "vol\\-": "Vol_dn",
+        "quieter": "Vol_dn",
+        "audiodown": "Vol_dn",
+        "voldwn": "Vol_dn",
+        "voldn": "Vol_dn",
+        "voldown": "Vol_dn",
         "v\\-": "Vol_dn",
-        "softer": "Vol_dn",
-        "volume(?:_)?lower": "Vol_dn",
-        "audio(?:_)?down": "Vol_dn",
-        "au(?:_)?dn": "Vol_dn",
 
         // Next
-        "next": "Next",
+        "tracknext": "Next",
+        "skipforward": "Next",
+        "fastforward": "Next",
         "nxt": "Next",
-        "nx": "Next",
-        "n": "Next",
-        "skip(?:_)?fwd": "Next",
-        "sk(?:_)?f": "Next",
-        "forward": "Next",
-        "fwd": "Next",
+        "skpfwd": "Next",
         "ff": "Next",
-        "fast(?:_)?forward": "Next",
-        "track(?:_)?forward": "Next",
-        "tr(?:_)?fwd": "Next",
-        "next(?:_)?track": "Next",
-        "skip(?:_)?ahead": "Next",
 
-        // Previous
-        "prev(?:ious)?": "Prev",
-        "prv": "Prev",
-        "pr": "Prev",
-        "skip(?:_)?back": "Prev",
-        "sk(?:_)?b": "Prev",
+        // Prev
+        "trackprev": "Prev",
+        "skipbackward": "Prev",
         "rewind": "Prev",
-        "rew": "Prev",
-        "rw": "Prev",
-        "back": "Prev",
-        "bk": "Prev",
-        "track(?:_)?back": "Prev",
-        "tr(?:_)?bk": "Prev",
-        "previous(?:_)?track": "Prev",
-        "skip(?:_)?previous": "Prev",
+        "prv": "Prev",
+        "skpbck": "Prev",
+        "rwd": "Prev",
 
         // Play
-        "play": "Play",
-        "pl": "Play",
-        "ply": "Play",
-        "start": "Play",
-        "strt": "Play",
+        "startplayback": "Play",
         "resume": "Play",
+        "ply": "Play",
+        "strtplybck": "Play",
         "rsm": "Play",
-        "begin": "Play",
-        "bgn": "Play",
-        "playback": "Play",
-        "pb": "Play",
+        "play": "Play",
 
         // Pause
-        "pause": "Pause",
-        "pse": "Pause",
-        "ps": "Pause",
-        "hold": "Pause",
-        "hld": "Pause",
-        "freeze": "Pause",
-        "frz": "Pause",
-        "suspend": "Pause",
-        "spnd": "Pause",
+        "pauseplayback": "Pause",
         "break": "Pause",
+        "paus": "Pause",
+        "pse": "Pause",
         "brk": "Pause",
+        "pause": "Pause",
+
+        // Stop
+        "endplayback": "Stop",
+        "halt": "Stop",
+        "stp": "Stop",
+        "endplybck": "Stop",
+        "hlt": "Stop",
+        "stop": "Stop",
 
         // Mute
-        "mute": "Mute",
-        "mu": "Mute",
-        "mt": "Mute",
-        "silence": "Mute",
-        "sil": "Mute",
-        "quiet": "Mute",
-        "qt": "Mute",
-        "audio(?:_)?off": "Mute",
-        "sound(?:_)?off": "Mute",
-        "no(?:_)?sound": "Mute",
+        "mutetoggle": "Mute",
+        "silent": "Mute",
+        "audiomute": "Mute",
+        "mut": "Mute",
+        "slnt": "Mute",
         "mte": "Mute",
+
+        // Source
+        "input": "Source",
+        "mode": "Source",
+        "function": "Source",
+        "src": "Source",
+        "inpt": "Source",
+        "fnc": "Source",
+
+        // Bass
+        "bassadjust": "Bass",
+        "lowfreq": "Bass",
+        "bas": "Bass",
+        "lofrq": "Bass",
+
+        // Treble
+        "trebleadjust": "Treble",
+        "highfreq": "Treble",
+        "trbl": "Treble",
+        "hifrq": "Treble",
+
+        // EQ
+        "equalizer": "EQ",
+        "soundmode": "EQ",
+        "audiopreset": "EQ",
+        "eq": "EQ",
+        "sndmode": "EQ",
+        "audprst": "EQ",
     },
     "AC": {
-        // Off
+        // Power (Off)
         "off": "Off",
-        "of": "Off",
-        "power": "Off",
+        "turnoff": "Off",
+        "poweroff": "Off",
         "shutdown": "Off",
+        "trnoff": "Off",
+        "pwroff": "Off",
         "shtdwn": "Off",
-        "shut(?:_)?down": "Off",
-        "power(?:_)?off": "Off",
-        "pwr(?:_)?off": "Off",
-        "pw(?:_)?off": "Off",
-        "p(?:_)?off": "Off",
-        "turn(?:_)?off": "Off",
-        "switch(?:_)?off": "Off",
-        "sw(?:_)?off": "Off",
-
-        // Dehumidify
-        "dh": "Dh",
-        "dehumidify": "Dh",
-        "dehum": "Dh",
-        "dhum": "Dh",
-        "dry": "Dh",
-        "dehumid": "Dh",
-        "moisture(?:_)?remove": "Dh",
-        "mst(?:_)?rmv": "Dh",
-        "humidity(?:_)?control": "Dh",
-        "hum(?:_)?ctrl": "Dh",
-        "water(?:_)?remove": "Dh",
-        "wtr(?:_)?rmv": "Dh",
 
         // Cool High
-        "cool(?:_)?hi": "Cool_hi",
-        "ch": "Cool_hi",
-        "cool(?:_)?high": "Cool_hi",
-        "high(?:_)?cool": "Cool_hi",
-        "hi(?:_)?cool": "Cool_hi",
-        "max(?:_)?cool": "Cool_hi",
-        "cool(?:_)?max": "Cool_hi",
-        "strong(?:_)?cool": "Cool_hi",
-        "str(?:_)?cool": "Cool_hi",
+        "coolhi": "Cool_hi",
+        "coolhigh": "Cool_hi",
+        "maxcool": "Cool_hi",
+        "coolmax": "Cool_hi",
+        "strongcool": "Cool_hi",
+        "strcool": "Cool_hi",
 
         // Cool Low
-        "cool(?:_)?lo": "Cool_lo",
-        "cl": "Cool_lo",
-        "cool(?:_)?low": "Cool_lo",
-        "low(?:_)?cool": "Cool_lo",
-        "min(?:_)?cool": "Cool_lo",
-        "cool(?:_)?min": "Cool_lo",
-        "gentle(?:_)?cool": "Cool_lo",
-        "gnt(?:_)?cool": "Cool_lo",
+        "coollo": "Cool_lo",
+        "coollow": "Cool_lo",
+        "mincool": "Cool_lo",
+        "coolmin": "Cool_lo",
+        "gentlecool": "Cool_lo",
+        "gntcool": "Cool_lo",
 
         // Heat High
-        "heat(?:_)?hi": "Heat_hi",
-        "hh": "Heat_hi",
-        "heat(?:_)?high": "Heat_hi",
-        "high(?:_)?heat": "Heat_hi",
-        "hi(?:_)?heat": "Heat_hi",
-        "max(?:_)?heat": "Heat_hi",
-        "heat(?:_)?max": "Heat_hi",
-        "strong(?:_)?heat": "Heat_hi",
-        "str(?:_)?heat": "Heat_hi",
+        "heathi": "Heat_hi",
+        "heathigh": "Heat_hi",
+        "maxheat": "Heat_hi",
+        "heatmax": "Heat_hi",
+        "strongheat": "Heat_hi",
+        "strheat": "Heat_hi",
 
         // Heat Low
-        "heat(?:_)?lo": "Heat_lo",
-        "hl": "Heat_lo",
-        "heat(?:_)?low": "Heat_lo",
-        "low(?:_)?heat": "Heat_lo",
-        "min(?:_)?heat": "Heat_lo",
-        "heat(?:_)?min": "Heat_lo",
-        "gentle(?:_)?heat": "Heat_lo",
-        "gnt(?:_)?heat": "Heat_lo",
-    }
+        "heatlo": "Heat_lo",
+        "heatlow": "Heat_lo",
+        "minheat": "Heat_lo",
+        "heatmin": "Heat_lo",
+        "gentleheat": "Heat_lo",
+        "gntheat": "Heat_lo",
+
+        // Dehumidify
+        "dehumidify": "Dh",
+        "dehum": "Dh",
+        "drymode": "Dh",
+        "moistureremove": "Dh",
+        "dehumid": "Dh",
+        "drymd": "Dh",
+        "moistrmv": "Dh",
+    },
+    "Fan": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "powr": "Power",
+        "pover": "Power",
+        "powe": "Power",
+        "pw": "Power",
+        "p": "Power",
+
+        // Speed Up
+        "faster": "Speed_up",
+        "increasespeed": "Speed_up",
+        "windup": "Speed_up",
+        "spdup": "Speed_up",
+        "incspd": "Speed_up",
+        "wind\\^": "Speed_up",
+
+        // Speed Down
+        "slower": "Speed_dn",
+        "decreasespeed": "Speed_dn",
+        "winddown": "Speed_dn",
+        "spddn": "Speed_dn",
+        "decspd": "Speed_dn",
+        "windv": "Speed_dn",
+
+        // Mode
+        "function": "Mode",
+        "airflow": "Mode",
+        "fanmode": "Mode",
+        "mod": "Mode",
+        "fnc": "Mode",
+        "airflw": "Mode",
+
+        // Rotate
+        "oscillate": "Rotate",
+        "swing": "Rotate",
+        "scan": "Rotate",
+        "rot": "Rotate",
+        "osc": "Rotate",
+        "swng": "Rotate",
+
+        // Timer
+        "autooff": "Timer",
+        "schedule": "Timer",
+        "delayoff": "Timer",
+        "tmr": "Timer",
+        "autoof": "Timer",
+        "sched": "Timer",
+
+        // Natural
+        "naturalwind": "Nat",
+        "breeze": "Nat",
+        "simulate": "Nat",
+        "natrl": "Nat",
+        "brz": "Nat",
+        "sim": "Nat",
+
+        // Humidify
+        "humidify": "Humid",
+        "mist": "Humid",
+        "vapor": "Humid",
+        "hum": "Humid",
+        "mst": "Humid",
+        "vpr": "Humid",
+    },
+    "LED": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "powr": "Power",
+        "pover": "Power",
+        "powe": "Power",
+        "pw": "Power",
+        "p": "Power",
+
+        // Brightness Up
+        "brightnessup": "Bright+",
+        "brighter": "Bright+",
+        "intensify": "Bright+",
+        "brt\\+": "Bright+",
+        "brghtup": "Bright+",
+        "intnsfy": "Bright+",
+
+        // Brightness Down
+        "brightnessdown": "Bright-",
+        "dimmer": "Bright-",
+        "soften": "Bright-",
+        "brt\\-": "Bright-",
+        "brghtdn": "Bright-",
+        "sftn": "Bright-",
+
+        // Color
+        "colorchange": "Color",
+        "hue": "Color",
+        "tint": "Color",
+        "clr": "Color",
+        "huechng": "Color",
+        "tnt": "Color",
+
+        // Tone
+        "temperature": "Tone",
+        "warmth": "Tone",
+        "kelvin": "Tone",
+        "tmp": "Tone",
+        "wrm": "Tone",
+        "klvn": "Tone",
+
+        // Effect
+        "effect": "FX",
+        "animate": "FX",
+        "dynamic": "FX",
+        "fx": "FX",
+        "efct": "FX",
+        "anim": "FX",
+
+        // Sync
+        "musicmode": "Sync",
+        "rhythm": "Sync",
+        "soundactive": "Sync",
+        "sync": "Sync",
+        "mscmd": "Sync",
+        "rythm": "Sync",
+
+        // Preset
+        "scene": "Preset",
+        "mode": "Preset",
+        "theme": "Preset",
+        "prst": "Preset",
+        "scn": "Preset",
+        "thm": "Preset",
+    },
+    "DigitalSigns": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "powr": "Power",
+        "pover": "Power",
+        "powe": "Power",
+        "pw": "Power",
+        "p": "Power",
+
+        // Source
+        "input": "Source",
+        "inputselect": "Source",
+        "mode": "Source",
+        "src": "Source",
+        "inptslct": "Source",
+        "mod": "Source",
+
+        // Play
+        "startcontent": "Play",
+        "run": "Play",
+        "begin": "Play",
+        "ply": "Play",
+        "strtcntnt": "Play",
+        "bgn": "Play",
+
+        // Stop
+        "endcontent": "Stop",
+        "halt": "Stop",
+        "stp": "Stop",
+        "endcntnt": "Stop",
+        "hlt": "Stop",
+
+        // Schedule
+        "schedule": "Sched",
+        "timer": "Sched",
+        "program": "Sched",
+        "schd": "Sched",
+        "tmr": "Sched",
+        "prgm": "Sched",
+
+        // Layout
+        "displaymode": "Layout",
+        "screenlayout": "Layout",
+        "format": "Layout",
+        "lyt": "Layout",
+        "scrnlyt": "Layout",
+        "frmt": "Layout",
+
+        // Update
+        "refresh": "Update",
+        "synccontent": "Update",
+        "reload": "Update",
+        "updt": "Update",
+        "rfsh": "Update",
+        "synccntnt": "Update",
+
+        // Zoom
+        "scale": "Zoom",
+        "resize": "Zoom",
+        "magnify": "Zoom",
+        "zm": "Zoom",
+        "rsize": "Zoom",
+        "mgnfy": "Zoom",
+
+        // Lock
+        "keypadlock": "Lock",
+        "childlock": "Lock",
+        "security": "Lock",
+        "lck": "Lock",
+        "chldlck": "Lock",
+        "scrty": "Lock",
+    },
 };
 
-// Function to get device type key
+// Regular expression to clean button names.
+const buttonNameCleanRegex = /[_\-\s\/]/g;
+
+/**
+ * Get the device type key used in the button name mapping.
+ * Maps the selected device type to a standardized key.
+ * Defaults to "TV" if the device type is not found in the mapping.
+ *
+ * @param {string} selectedDeviceType - The device type selected by the user.
+ * @return {string} The device type key used in the button name mapping.
+ */
 function getDeviceTypeKey(selectedDeviceType) {
     const deviceTypeMapping = {
         // TVs and related devices
         "TV": "TV",
         "Projector": "TV",
-        "Monitor": "TV",
+        "Monitor": "Monitor",
         "Set-Top Box": "TV",
         "Cable Box": "TV",
         "Satellite Receiver": "TV",
@@ -320,19 +556,43 @@ function getDeviceTypeKey(selectedDeviceType) {
         "AC": "AC",
         "Air Conditioner": "AC",
 
+        // Fans
+        "Fan": "Fan",
+        "Ceiling Fan": "Fan",
+        "Standing Fan": "Fan",
+
+        // LEDs
+        "LED": "LED",
+        "Light": "LED",
+        "Lamp": "LED",
+
+        // Digital Signs
+        "Digital Signs": "DigitalSigns",
+        "Digital Signage": "DigitalSigns",
+
         // Default to TV if not found
     };
     return deviceTypeMapping[selectedDeviceType] || "TV"; // Default to "TV"
 }
 
-// Function to normalize button names based on device type
+/**
+ * Normalize the button name based on the device type key.
+ * Cleans the button name and matches it against patterns in the mapping
+ * to return a standardized button name.
+ *
+ * @param {string} buttonName - The original button name.
+ * @param {string} deviceTypeKey - The device type key used in the mapping.
+ * @return {string} The normalized button name.
+ */
 function normalizeButtonName(buttonName, deviceTypeKey) {
     let mapping = buttonNameMapping[deviceTypeKey];
     if (!mapping) {
         mapping = {}; // Default to empty mapping
     }
-    let cleanedName = buttonName.toLowerCase().replace(/[_\-\s]/g, "");
+    // Clean the button name: lowercase and remove underscores, hyphens, spaces, and slashes
+    let cleanedName = buttonName.toLowerCase().replace(buttonNameCleanRegex, "");
     for (const pattern in mapping) {
+        // Use regular expressions to match the cleaned button name
         if (new RegExp(`^${pattern}$`).test(cleanedName)) {
             return mapping[pattern];
         }
@@ -340,7 +600,13 @@ function normalizeButtonName(buttonName, deviceTypeKey) {
     return buttonName; // Return original name if no mapping found
 }
 
-// Parse IR file content into data structure
+/**
+ * Parse the content of an IR file into a structured data array.
+ * Each button in the IR file is represented as an object with its properties.
+ *
+ * @param {string} content - The content of the IR file.
+ * @return {Array<Object>} An array of button data objects.
+ */
 function parseIRFile(content) {
     const lines = content.split('\n');
     const irData = [];
@@ -349,6 +615,7 @@ function parseIRFile(content) {
     lines.forEach((line) => {
         line = line.trim();
         if (line.startsWith('name:')) {
+            // Start of a new button definition
             if (Object.keys(currentButton).length) {
                 irData.push(currentButton);
                 currentButton = {};
@@ -372,6 +639,7 @@ function parseIRFile(content) {
         }
     });
 
+    // Add the last button if any
     if (Object.keys(currentButton).length) {
         irData.push(currentButton);
     }
@@ -379,24 +647,45 @@ function parseIRFile(content) {
     return irData;
 }
 
-// Create IR content with normalized button names and a single comment line
-function createIRContent(irData, brand, model, deviceType, deviceModel = "", deviceTypeKey, deviceLink = "", deviceDescription = "") {
+/**
+ * Create the content for the output IR file.
+ * Includes the header, comments with device information, and button data.
+ *
+ * @param {Array<Object>} irData - The array of button data.
+ * @param {string} brand - The brand of the device.
+ * @param {string} remoteModel - The model of the remote.
+ * @param {string} deviceType - The type of the device.
+ * @param {string} [deviceModel=""] - The model of the device (optional).
+ * @param {string} deviceTypeKey - The device type key used in the mapping.
+ * @param {string} [deviceLink=""] - A link to the device information (optional).
+ * @param {string} [deviceDescription=""] - A description of the device (optional).
+ * @param {string} [contributorName=""] - The name of the contributor (optional).
+ * @return {string} The content for the output IR file.
+ */
+function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "", deviceTypeKey, deviceLink = "", deviceDescription = "", contributorName = "") {
     let content = `Filetype: IR signals file\nVersion: 1\n#\n`;
 
-    // Concatenate all additional information into one long comment line
+    // Create an array of comment lines with device information
     let infoItems = [
         brand ? `Brand: ${brand}` : "",
-        model ? `Remote Model: ${model}` : "",
+        remoteModel ? `Remote Model: ${remoteModel}` : "",
         deviceModel ? `Device Model: ${deviceModel}` : "",
         deviceType ? `Device Type: ${deviceType}` : "",
         deviceLink ? `Link: ${deviceLink}` : "",
-        deviceDescription ? `Description: ${deviceDescription}` : ""
-    ].filter(item => item).join(", ");
+        deviceDescription ? `Description: ${deviceDescription}` : "",
+        contributorName ? `Contributor: ${contributorName}` : ""
+    ].filter(item => item);
 
-    // Add the single comment line
-    content += `# ${infoItems}\n#\n`;
+    // Add each info item as a separate comment line
+    infoItems.forEach(item => {
+        content += `# ${item}\n`;
+    });
 
+    content += "#\n"; // Add a blank comment line
+
+    // Add button data
     irData.forEach(button => {
+        // Normalize the button name
         const normalizedButtonName = normalizeButtonName(button.name, deviceTypeKey);
         content += `name: ${normalizedButtonName}\n`;
         content += `type: ${button.type}\n`;
@@ -415,66 +704,144 @@ function createIRContent(irData, brand, model, deviceType, deviceModel = "", dev
     return content;
 }
 
-function processIRFile() {
-    const fileInput = document.getElementById("file-input");
-    const file = fileInput.files[0];
 
-    if (!file) {
-        alert("Please select a .ir file.");
+/**
+ * Process multiple IR files selected by the user.
+ * Parses each file, normalizes button names, and creates a ZIP archive
+ * containing the processed IR files, preserving folder structure.
+ */
+function processIRFiles() {
+    // Get selected files from both file inputs
+    const fileInputFiles = document.getElementById("file-input-files");
+    const fileInputFolder = document.getElementById("file-input-folder");
+
+    const filesFromFilesInput = fileInputFiles.files;
+    const filesFromFolderInput = fileInputFolder.files;
+
+    // Combine files from both inputs
+    const allFiles = [...filesFromFilesInput, ...filesFromFolderInput];
+
+    if (!allFiles.length) {
+        alert("Please select .ir files or a folder containing .ir files.");
         return;
     }
 
-    const brand = document.getElementById("brand").value.trim();
-    const remoteModel = document.getElementById("remote-model").value.trim();
-    const deviceModel = document.getElementById("device-model").value.trim();
+    // Get device type and other inputs from the user
     const deviceType = document.getElementById("device-type").value;
     const deviceTypeKey = getDeviceTypeKey(deviceType);
     const deviceLink = document.getElementById("device-link").value.trim();
     const deviceDescription = document.getElementById("device-description").value.trim();
+    const brandInput = document.getElementById("brand").value.trim();
+    const deviceModelInput = document.getElementById("device-model").value.trim();
+    const remoteModelInput = document.getElementById("remote-model").value.trim();
+    const contributorName = document.getElementById("contributor-name").value.trim();
 
-    if (!brand || !deviceModel || !deviceType) {
-        alert("Please enter brand, device model, and select a device type.");
+    if (!deviceType) {
+        alert("Please select a device type.");
         return;
     }
 
-    const reader = new FileReader();
+    // Filter .ir files
+    const irFiles = Array.from(allFiles).filter(file => file.name.endsWith('.ir'));
 
-    reader.onload = function(event) {
-        const fileContent = event.target.result;
-        const irData = parseIRFile(fileContent);
-        const processedContent = createIRContent(
-            irData,
-            brand,
-            remoteModel,
-            deviceType,
-            deviceModel,
-            deviceTypeKey,
-            deviceLink,
-            deviceDescription
-        );
-        const filename = `${brand}_${deviceModel}.ir`;  // Updated filename
-        downloadFile(processedContent, filename);
-    };
+    if (irFiles.length === 0) {
+        alert("No .ir files found in the selected files/folder.");
+        return;
+    }
 
-    reader.readAsText(file);
+    const zip = new JSZip();
+    const promises = [];
+
+    irFiles.forEach(file => {
+        const promise = new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const fileContent = event.target.result;
+                const irData = parseIRFile(fileContent);
+                
+                // Extract brand and remote model from filename if not provided
+                let brand = brandInput;
+                let remoteModel = remoteModelInput;
+
+                if (!brand || !remoteModel) {
+                    const extracted = extractBrandAndModel(file.name);
+                    if (!brand) brand = extracted.brand;
+                    if (!remoteModel) remoteModel = extracted.remoteModel;
+                }
+
+                const processedContent = createIRContent(
+                    irData,
+                    brand,
+                    remoteModel,
+                    deviceType,
+                    deviceModelInput,
+                    deviceTypeKey,
+                    deviceLink,
+                    deviceDescription,
+                    contributorName
+                );
+
+                // Preserve folder structure if available
+                let relativePath = file.webkitRelativePath || file.name;
+                // Remove any leading folder names (e.g., if selecting files directly)
+                const pathParts = relativePath.split('/');
+                if (pathParts.length > 1) {
+                    pathParts.shift(); // Remove the first folder (since webkitRelativePath includes the folder name)
+                    relativePath = pathParts.join('/');
+                } else {
+                    relativePath = pathParts[0];
+                }
+
+                // Use the same relative path in the ZIP
+                zip.file(relativePath, processedContent);
+                resolve();
+            };
+            reader.onerror = function(error) {
+                reject(error);
+            };
+            reader.readAsText(file);
+        });
+        promises.push(promise);
+    });
+
+    // Generate the ZIP file and trigger download
+    Promise.all(promises).then(() => {
+        zip.generateAsync({type:"blob"}).then(function(content) {
+            saveAs(content, "formatted_ir_files.zip");
+        });
+    }).catch(error => {
+        alert("Error processing files: " + error);
+    });
 }
 
-function downloadFile(content, filename) {
-    const blob = new Blob([content], { type: "text/plain" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
+
+/**
+ * Extract the brand and remote model from the filename.
+ * Assumes the filename is in the format Brand_MODEL.ext
+ *
+ * @param {string} filename - The filename of the IR file.
+ * @return {Object} An object containing the brand and remote model.
+ */
+function extractBrandAndModel(filename) {
+    // Remove extension
+    const nameWithoutExtension = filename.replace(/\.[^/.]+$/, "");
+
+    // Split by underscores or spaces
+    const parts = nameWithoutExtension.split(/[_ ]+/);
+
+    // Assuming the format is Brand_MODEL
+    const brand = parts[0] || "";
+    const remoteModel = parts.slice(1).join("_") || "";
+
+    return { brand, remoteModel };
 }
 
 // DOM Elements and Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const themeToggleButton = document.getElementById('theme-toggle-button');
-    const fileInput = document.getElementById('file-input');
+    const fileInputFiles = document.getElementById('file-input-files');
+    const fileInputFolder = document.getElementById('file-input-folder');
     const processButton = document.getElementById('process-btn');
 
     // Check for saved theme in localStorage
@@ -496,17 +863,28 @@ document.addEventListener('DOMContentLoaded', () => {
         updateButtonText(newTheme);
     });
 
-    // File conversion
-    processButton.addEventListener('click', processIRFile);
+    // File processing on button click
+    processButton.addEventListener('click', processIRFiles);
 
-    // Update file input label
-    fileInput.addEventListener('change', (event) => {
-        const fileName = event.target.files[0]?.name || 'Choose a file...';
-        fileInput.nextElementSibling.textContent = fileName;
+    // Update file input labels
+    fileInputFiles.addEventListener('change', (event) => {
+        const fileCount = event.target.files.length;
+        const fileName = fileCount > 1 ? `${fileCount} files selected` : event.target.files[0]?.name || 'Choose files...';
+        fileInputFiles.nextElementSibling.textContent = fileName;
+    });
+
+    fileInputFolder.addEventListener('change', (event) => {
+        const fileCount = event.target.files.length;
+        const folderName = fileCount > 0 ? `Folder selected with ${fileCount} files` : 'Choose a folder...';
+        fileInputFolder.nextElementSibling.textContent = folderName;
     });
 });
 
-// Update button text based on the current theme
+/**
+ * Update the theme toggle button text based on the current theme.
+ *
+ * @param {string} theme - The current theme ('light-mode' or 'dark-mode').
+ */
 function updateButtonText(theme) {
     const themeToggleButton = document.getElementById('theme-toggle-button');
     themeToggleButton.textContent = theme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
