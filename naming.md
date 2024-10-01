@@ -27,17 +27,16 @@
 
 ### Jay's Button Names
 
-WORK IN PROGRESS... 
+WORK IN PROGRESS... Extra standard button names for consistency across additions to IRDB
 
 |     TVs     |   Audio   |     ACs     |    Fans    |    LEDs    |  Monitors  | Digital Signs |
 |:-----------:|:---------:|:-----------:|:----------:|:----------:|:----------:|:-------------:|
-|   `Smart`   |  `Bass`   |   `Swing`   | `Natural`  |  `Color`   |   `PIP`    |  `Schedule`   |
-|   `Guide`   | `Treble`  |  `Fan_spd`  |  `Night`   |   `Tone`   |  `Freeze`  |   `Layout`    |
-|    `PIP`    |   `EQ`    |    `Eco`    | `Humidity` |    `FX`    |   `Auto`   |   `Update`    |
-|    `Fav`    | `Surround`|   `Turbo`   | `Ion/Clean`|   `Sync`   |   `ECO`    |    `Zoom`     |
-|    `CC`     |  `Repeat` |   `Quiet`   |            |            |  `Preset`  |    `Lock`     |
-|  `Aspect`   | `Shuffle` |             |            |            |            |               |
-
+|   `Smart`   |   `Bass`  |   `Swing`   |   `Nat`    |  `Color`   |   `PIP`    |   `Sched`     |
+|   `Guide`   | `Treble`  |    `Fan`    |  `Night`   |   `Tone`   | `Freeze`   |   `Layout`    |
+|    `PIP`    |    `EQ`   |    `Eco`    |   `Humid`  |    `FX`    |   `ECO`    |   `Update`    |
+|    `Fav`    | `Repeat`  |   `Turbo`   |    `Ion`   |   `Sync`   | `Aspect`   |    `Zoom`     |
+|    `CC`     | `Shuffle` |   `Quiet`   |            | `Preset`   |  `Split`   |    `Lock`     |
+|  `Aspect`   |           |   `Sleep`   |            |            |            |               |
 
 ### Button Renaming
 
