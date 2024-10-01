@@ -1,7 +1,5 @@
 # Comprehensive IRDB (Infrared Database) Naming Standards
 
-# Comprehensive IRDB (Infrared Database) Naming Standards
-
 ## 1. Button Name Standardization
 
 ### Universal Remote Standard (Primary)
