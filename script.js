@@ -515,6 +515,171 @@ const buttonNameMapping = {
         "chldlck": "Lock",
         "scrty": "Lock",
     },
+    "DVD": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "powr": "Power",
+        "on_off": "Power",
+        "switch": "Power",
+        "toggle": "Power",
+
+        // Eject
+        "eject": "Eject",
+        "open_close": "Eject",
+        "disc": "Eject",
+
+        // Playback controls
+        "play": "Play",
+        "pause": "Pause",
+        "stop": "Stop",
+        "fastforward": "Fast_fo",
+        "fastbackward": "Fast_ba",
+        "ff": "Fast_fo",
+        "rew": "Fast_ba",
+        "next": "Next",
+        "previous": "Prev",
+        "skip": "Next",
+        "skipback": "Prev",
+
+        // Menu navigation
+        "menu": "Menu",
+        "disc_menu": "Menu",
+        "root_menu": "Menu",
+        "top_menu": "Top_menu",
+        "title_menu": "Top_menu",
+        "setup": "Setup",
+        "home": "Home",
+
+        // Special functions
+        "audio": "Audio",
+        "sound_track": "Audio",
+        "language": "Audio",
+        "subtitle": "Subtitle",
+        "captions": "Subtitle",
+        "angle": "Angle",
+        "camera_angle": "Angle",
+        "zoom": "Zoom",
+        "magnify": "Zoom",
+
+        // Navigation
+        "up": "Up",
+        "down": "Down",
+        "left": "Left",
+        "right": "Right",
+        "enter": "Ok",
+        "select": "Ok",
+        "ok": "Ok",
+
+        // Color buttons
+        "red": "Red",
+        "green": "Green",
+        "yellow": "Yellow",
+        "blue": "Blue"
+    },
+
+    "Gaming": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "powr": "Power",
+        "on_off": "Power",
+        "switch": "Power",
+        "toggle": "Power",
+
+        // Navigation
+        "up": "Up",
+        "down": "Down",
+        "left": "Left",
+        "right": "Right",
+        "start": "Start",
+        "select": "Select",
+        "options": "Options",
+        "menu": "Menu",
+        "home": "Home",
+
+        // Action buttons
+        "a": "A",
+        "b": "B",
+        "x": "X",
+        "y": "Y",
+        "square": "Square",
+        "triangle": "Triangle",
+        "circle": "Circle",
+        "cross": "Cross",
+
+        // Shoulder buttons
+        "l1": "L1",
+        "r1": "R1",
+        "l2": "L2",
+        "r2": "R2",
+        "lb": "L1",
+        "rb": "R1",
+        "lt": "L2",
+        "rt": "R2",
+
+        // Special functions
+        "share": "Share",
+        "capture": "Capture",
+        "touchpad": "Touchpad",
+        "ps": "PS",
+        "xbox": "Xbox"
+    },
+
+    "Streaming": {
+        // Power
+        "power": "Power",
+        "pwr": "Power",
+        "powr": "Power",
+        "on_off": "Power",
+        "switch": "Power",
+        "toggle": "Power",
+
+        // Navigation
+        "up": "Up",
+        "down": "Down",
+        "left": "Left",
+        "right": "Right",
+        "select": "Ok",
+        "ok": "Ok",
+        "enter": "Ok",
+
+        // Playback controls
+        "play": "Play",
+        "pause": "Pause",
+        "playpause": "Play_pa",
+        "stop": "Stop",
+        "fastforward": "Fast_fo",
+        "rewind": "Fast_ba",
+        "ff": "Fast_fo",
+        "rew": "Fast_ba",
+        "next": "Next",
+        "previous": "Prev",
+
+        // Menu and UI
+        "menu": "Menu",
+        "home": "Home",
+        "back": "Back",
+        "return": "Back",
+
+        // Volume controls
+        "volumeup": "Vol_up",
+        "volumedown": "Vol_dn",
+        "mute": "Mute",
+
+        // Special functions
+        "search": "Search",
+        "voice": "Voice",
+        "mic": "Voice",
+
+        // App shortcuts
+        "netflix": "Netflix",
+        "prime": "Prime",
+        "hulu": "Hulu",
+        "disney": "Disney",
+        "youtube": "Youtube",
+        "appstore": "Appstore"
+    },
 };
 
 // Regular expression to clean button names.
@@ -533,11 +698,9 @@ function getDeviceTypeKey(selectedDeviceType) {
         // TVs and related devices
         "TV": "TV",
         "Projector": "TV",
-        "Monitor": "TV",
         "Set-Top Box": "TV",
         "Cable Box": "TV",
         "Satellite Receiver": "TV",
-        "Streaming Device": "TV",
         "TV Tuner": "TV",
         "DVB-T": "TV",
         "Universal TV Remote": "TV",
@@ -546,12 +709,21 @@ function getDeviceTypeKey(selectedDeviceType) {
         "Audio and Video Receiver": "Audio",
         "Soundbar": "Audio",
         "Home Theater": "Audio",
-        "DVD Player": "Audio",
-        "Blu-ray Player": "Audio",
         "CD Player": "Audio",
         "MiniDisc Player": "Audio",
-        "VCR": "Audio",
-        "Laserdisc Player": "Audio",
+
+
+        // DVD and Blu-ray players
+        "DVD Player": "DVD",
+        "Blu-ray Player": "DVD",
+        "VCR": "DVD",
+        "Laserdisc Player": "DVD",
+
+        // Gaming devices
+        "Gaming Console": "Gaming",
+
+        // Streaming devices
+        "Streaming Device": "Streaming",
 
         // Air Conditioners and Climate Control
         "AC": "AC",
@@ -566,15 +738,15 @@ function getDeviceTypeKey(selectedDeviceType) {
         "Lights": "LED",
         "LED Lighting": "LED",
 
-        // Digital Signs and Displays
+        // Monitors and Displays
+        "Monitor": "Monitor",
         "Digital Sign": "DigitalSigns",
         "Touchscreen Display": "DigitalSigns",
         "Whiteboard": "DigitalSigns",
 
-        // Devices that might use TV-like controls
+        // Smart Home and IoT devices
         "Smart Home": "TV",
         "Computer": "TV",
-        "Gaming Console": "TV",
         "KVM": "TV",
         "Camera": "TV",
         "CCTV": "TV",
@@ -598,7 +770,6 @@ function getDeviceTypeKey(selectedDeviceType) {
     };
     return deviceTypeMapping[selectedDeviceType] || "TV"; // Default to "TV"
 }
-
 /**
  * Normalize the button name based on the device type key.
  * Cleans the button name and matches it against patterns in the mapping
