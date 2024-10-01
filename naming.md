@@ -42,76 +42,125 @@ WORK IN PROGRESS... Extra standard button names for consistency across additions
 
 #### TV Buttons
 
-| Standard Name |        Alternative Names         |
-|:-------------:|:--------------------------------:|
-|    `Power`    | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
-|   `Vol_up`    | v_up, v+, vu, volume_up, vol_increase, vol_inc, vol+, louder, volume_raise, audio_up, au_up |
-|   `Vol_dn`    | vol_down, v_down, v-, vd, volume_down, vol_decrease, vol_dec, vol_dwn, vol-, softer, volume_lower, audio_down, au_dn |
-|  `Ch_next`    | ch_up, ch+, c_up, c+, cu, channel_up, next_channel, channel_forward, ch_fwd, prog_up, program_up, p_up, pu |
-|  `Ch_prev`    | ch_down, ch_dn, ch-, c_down, c_dn, c-, cd, channel_down, previous_channel, channel_back, ch_bk, prog_down, program_down, p_down, p_dn, pd |
-|    `Mute`     | mu, mt, silence, sil, quiet, qt, audio_off, sound_off, no_sound, mte |
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+| `Power`       | pwr, powr, pover, powe, pw, p (only if it's a true power toggle) |
+| `On`          | turn_on, power_on, start, trn_on, pwr_on, strt |
+| `Off`         | turn_off, power_off, shutdown, trn_off, pwr_off, shtdwn |
+| `Vol_up`      | volume_up, vol+, louder, audio_up, vol_up, volup, vol^, v+ |
+| `Vol_dn`      | volume_down, vol-, quieter, audio_down, vol_dwn, voldn, voldown, v- |
+| `Ch_next`     | channel_up, ch+, prog+, tune_up, chnl_up, ch^, c+, chan+ |
+| `Ch_prev`     | channel_down, ch-, prog-, tune_down, chnl_dwn, chdn, c-, chan- |
+| `Mute`        | mute_toggle, silent, audio_mute, mut, slnt, mte |
+| `Source`      | input, tv/av, mode, signal, src, inpt, tv_av |
+| `Menu`        | home, smart_hub, settings, mnu, stngs, hme |
+| `Exit`        | back, return, close, ext, bck, rtrn, cls |
+| `Up`          | arrow_up, navigate_up, u, ^, arrowup, nav_up |
+| `Down`        | arrow_down, navigate_down, d, v, arrowdn, nav_dwn |
+| `Left`        | arrow_left, navigate_left, l, <, arrowlft, nav_lft |
+| `Right`       | arrow_right, navigate_right, r, >, arrowrgt, nav_rgt |
+| `Ok`          | enter, select, confirm, entr, slct, cnfrm |
 
 #### Audio Buttons
 
-| Standard Name |        Alternative Names         |
-|:-------------:|:--------------------------------:|
-|    `Power`    | (Same as TV) |
-|   `Vol_up`    | (Same as TV) |
-|   `Vol_dn`    | (Same as TV) |
-|    `Next`     | nxt, nx, n, skip_fwd, sk_f, forward, fwd, ff, fast_forward, track_forward, tr_fwd, next_track, skip_ahead |
-|    `Prev`     | previous, prv, pr, skip_back, sk_b, rewind, rew, rw, back, bk, track_back, tr_bk, previous_track, skip_previous |
-|    `Play`     | pl, ply, start, strt, resume, rsm, begin, bgn, playback, pb |
-|    `Pause`    | pse, ps, hold, hld, freeze, frz, suspend, spnd, break, brk |
-|    `Mute`     | (Same as TV) |
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+| `Power`       | pwr, powr, pover, powe, pw, p (only if it's a true power toggle) |
+| `On`          | turn_on, power_on, start, trn_on, pwr_on, strt |
+| `Off`         | turn_off, power_off, shutdown, trn_off, pwr_off, shtdwn |
+| `Vol_up`      | volume_up, vol+, louder, audio_up, vol_up, volup, vol^, v+ |
+| `Vol_dn`      | volume_down, vol-, quieter, audio_down, vol_dwn, voldn, voldown, v- |
+| `Next`        | track_next, skip_forward, fast_forward, nxt, skp_fwd, ff |
+| `Prev`        | track_prev, skip_backward, rewind, prv, skp_bck, rwd |
+| `Play`        | start_playback, resume, ply, strt_plybck, rsm |
+| `Pause`       | pause_playback, break, paus, pse, brk |
+| `Stop`        | end_playback, halt, stp, end_plybck, hlt |
+| `Mute`        | mute_toggle, silent, audio_mute, mut, slnt, mte |
+| `Source`      | input, mode, function, src, inpt, fnc |
+| `Bass`        | bass_adjust, low_freq, bas, lo_frq |
+| `Treble`      | treble_adjust, high_freq, trbl, hi_frq |
+| `EQ`          | equalizer, sound_mode, audio_preset, eq, snd_mode, aud_prst |
 
 #### AC Buttons
 
-| Standard Name |        Alternative Names         |
-|:-------------:|:--------------------------------:|
-|     `Off`     | of, power, shutdown, shtdwn, shut_down, power_off, pwr_off, pw_off, p_off, turn_off, switch_off, sw_off |
-|     `Dh`      | dehumidify, dehum, dhum, dry, dehumid, moisture_remove, mst_rmv, humidity_control, hum_ctrl, water_remove, wtr_rmv |
-|  `Cool_hi`    | ch, cool_high, high_cool, hi_cool, max_cool, cool_max, strong_cool, str_cool |
-|  `Cool_lo`    | cl, cool_low, low_cool, min_cool, cool_min, gentle_cool, gnt_cool |
-|  `Heat_hi`    | hh, heat_high, high_heat, hi_heat, max_heat, heat_max, strong_heat, str_heat |
-|  `Heat_lo`    | hl, heat_low, low_heat, min_heat, heat_min, gentle_heat, gnt_heat |
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+| `Power`       | pwr, powr, pover, powe, pw, p (only if it's a true power toggle) |
+| `On`          | turn_on, power_on, start, trn_on, pwr_on, strt |
+| `Off`         | turn_off, power_off, shutdown, trn_off, pwr_off, shtdwn |
+| `Cool_hi`     | cool_high, max_cool, cooling_high, cool_hi, max_cl, coolhi |
+| `Cool_lo`     | cool_low, eco_cool, cooling_low, cool_lo, eco_cl, coollo |
+| `Heat_hi`     | heat_high, max_heat, heating_high, heat_hi, max_ht, heathi |
+| `Heat_lo`     | heat_low, eco_heat, heating_low, heat_lo, eco_ht, heatlo |
+| `Dh`          | dehumidify, dry_mode, moisture_remove, dehum, dry_md, moist_rmv |
+| `Fan`         | fan_speed, air_flow, ventilate, fn_spd, air_flw, vent |
+| `Swing`       | air_direction, louver, vane, swng, air_dir, lvr |
+| `Turbo`       | jet, powerful, boost, trbo, pwrfl, bst |
+| `Quiet`       | silent, whisper, low_noise, qiet, slnt, lo_noise |
+| `Sleep`       | night_mode, eco_night, timer, slp, nght_md, eco_nght |
 
 #### Fan Buttons
 
-| Standard Name |        Alternative Names         |
-|:-------------:|:--------------------------------:|
-|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
-|  `Speed_up`   | sp_up, s+, su, speed_increase, spd_inc, sp+, faster, speed_raise, fan_up, f_up |
-|  `Speed_dn`   | speed_down, sp_down, s-, sd, speed_decrease, spd_dec, sp_dwn, sp-, slower, speed_lower, fan_down, f_dn |
-|   `Mode`      | md, m, function, func, fn, setting, set, option, opt |
-|   `Rotate`    | rot, r, oscillate, osc, swing, swg, turn, trn |
-|   `Timer`     | tmr, t, schedule, sch, auto_off, a_off, delay_off, d_off |
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+| `Power`       | pwr, powr, pover, powe, pw, p (only if it's a true power toggle) |
+| `On`          | turn_on, power_on, start, trn_on, pwr_on, strt |
+| `Off`         | turn_off, power_off, shutdown, trn_off, pwr_off, shtdwn |
+| `Speed_up`    | faster, increase_speed, wind_up, spd_up, inc_spd, wind^ |
+| `Speed_dn`    | slower, decrease_speed, wind_down, spd_dn, dec_spd, windv |
+| `Mode`        | function, air_flow, fan_mode, mod, fnc, air_flw |
+| `Rotate`      | oscillate, swing, scan, rot, osc, swng |
+| `Timer`       | auto_off, schedule, delay_off, tmr, auto_of, sched |
+| `Nat`         | natural_wind, breeze, simulate, natrl, brz, sim |
+| `Humid`       | humidify, mist, vapor, hum, mst, vpr |
 
 #### LED Buttons
 
-| Standard Name |        Alternative Names         |
-|:-------------:|:--------------------------------:|
-|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
-|   `Bright+`   | brightness+, b+, bu, bright_up, brightness_up, brighter, increase_brightness, inc_bright |
-|   `Bright-`   | brightness-, b-, bd, bright_down, brightness_down, dimmer, decrease_brightness, dec_bright |
-|   `Flash`     | fl, blink, strobe, flicker, pulse, animate, fx, effect |
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+| `Power`       | pwr, powr, pover, powe, pw, p (only if it's a true power toggle) |
+| `On`          | turn_on, power_on, start, trn_on, pwr_on, strt |
+| `Off`         | turn_off, power_off, shutdown, trn_off, pwr_off, shtdwn |
+| `Bright+`     | brightness_up, brighter, intensify, brt+, brght_up, intnsfy |
+| `Bright-`     | brightness_down, dimmer, soften, brt-, brght_dn, sftn |
+| `Color`       | color_change, hue, tint, clr, hue_chng, tnt |
+| `Tone`        | temperature, warmth, kelvin, tmp, wrm, klvn |
+| `FX`          | effect, animate, dynamic, fx, efct, anim |
+| `Sync`        | music_mode, rhythm, sound_active, sync, msc_md, rythm |
+| `Preset`      | scene, mode, theme, prst, scn, thm |
 
 #### Monitor Buttons
 
-| Standard Name |        Alternative Names         |
-|:-------------:|:--------------------------------:|
-|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
-|   `Source`    | src, input, inp, in, signal, sig, mode, md |
-|   `Menu`      | mn, options, opt, settings, set, config, cfg |
-|   `Exit`      | ex, esc, escape, back, return, ret, close |
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+| `Power`       | pwr, powr, pover, powe, pw, p (only if it's a true power toggle) |
+| `On`          | turn_on, power_on, start, trn_on, pwr_on, strt |
+| `Off`         | turn_off, power_off, shutdown, trn_off, pwr_off, shtdwn |
+| `Source`      | input, input_select, mode, src, inpt_slct, mod |
+| `Menu`        | osd, on_screen_display, settings, mnu, onscreen, stngs |
+| `Exit`        | close, esc, return, ext, cls, rtrn |
+| `PIP`         | picture_in_picture, multi_view, pip, pic_in_pic, mlti_vw |
+| `Freeze`      | still, pause_screen, hold, frz, paus_scrn, hld |
+| `ECO`         | energy_save, power_save, efficiency, eco, nrg_save, pwr_save |
+| `Aspect`      | ratio, screen_fit, zoom, aspt, scrn_fit, zm |
+| `Split`       | screen_split, dual_view, multi_screen, splt, dual_vw, mlti_scrn |
 
 #### Digital Signs Buttons
 
-| Standard Name |        Alternative Names         |
-|:-------------:|:--------------------------------:|
-|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
-|   `Source`    | src, input, inp, in, signal, sig, mode, md |
-|   `Play`      | pl, ply, start, strt, resume, rsm, begin, bgn, playback, pb |
-|   `Stop`      | stp, st, halt, end, finish, terminate, abort |
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+| `Power`       | pwr, powr, pover, powe, pw, p (only if it's a true power toggle) |
+| `On`          | turn_on, power_on, start, trn_on, pwr_on, strt |
+| `Off`         | turn_off, power_off, shutdown, trn_off, pwr_off, shtdwn |
+| `Source`      | input, input_select, mode, src, inpt_slct, mod |
+| `Play`        | start_content, run, begin, ply, strt_cntnt, bgn |
+| `Stop`        | end_content, halt, terminate, stp, end_cntnt, trmnate |
+| `Sched`       | schedule, timer, program, schd, tmr, prgm |
+| `Layout`      | display_mode, screen_layout, format, lyt, scrn_lyt, frmt |
+| `Update`      | refresh, sync_content, reload, updt, rfsh, sync_cntnt |
+| `Zoom`        | scale, resize, magnify, zm, rsize, mgnfy |
+| `Lock`        | keypad_lock, child_lock, security, lck, chld_lck, scrty |
+
 
 ## 2. File Naming Convention
 
