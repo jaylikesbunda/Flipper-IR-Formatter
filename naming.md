@@ -4,16 +4,16 @@
 
 ### Universal Remote Standard (Primary)
 
-|     TVs     |   Audio   |     ACs     |
-|:-----------:|:---------:|:-----------:|
-|   `Power`   |  `Power`  |    `Off`    |
-|  `Vol_up`   | `Vol_up`  | `Cool_hi`   |
-|  `Vol_dn`   | `Vol_dn`  | `Cool_lo`   |
-| `Ch_next`   |  `Next`   | `Heat_hi`   |
-| `Ch_prev`   |  `Prev`   | `Heat_lo`   |
-|   `Mute`    |  `Mute`   |    `Dh`     |
-|             |  `Play`   |             |
-|             |  `Pause`  |             |
+|     TVs     |   Audio   |     ACs     |    Fans    |    LEDs    |  Monitors  | Digital Signs |
+|:-----------:|:---------:|:-----------:|:----------:|:----------:|:----------:|:-------------:|
+|   `Power`   |  `Power`  |    `Off`    |  `Power`   |  `Power`   |  `Power`   |    `Power`    |
+|  `Vol_up`   | `Vol_up`  | `Cool_hi`   | `Speed_up` | `Bright+`  |  `Source`  |   `Source`    |
+|  `Vol_dn`   | `Vol_dn`  | `Cool_lo`   | `Speed_dn` | `Bright-`  |   `Menu`   |    `Play`     |
+| `Ch_next`   |  `Next`   | `Heat_hi`   |  `Mode`    |  `Flash`   |   `Exit`   |    `Stop`     |
+| `Ch_prev`   |  `Prev`   | `Heat_lo`   | `Rotate`   |            |            |               |
+|   `Mute`    |  `Mute`   |    `Dh`     |  `Timer`   |            |            |               |
+|             |  `Play`   |             |            |            |            |               |
+|             |  `Pause`  |             |            |            |            |               |
 
 ### XRemote Additional Standard Buttons
 
@@ -25,7 +25,21 @@
 |  `Right`   |  `Back`   |  `Stop`   | `Mode`  |
 |    `Ok`    |           |           |         |
 
-### Detailed Button Name Mapping
+### Jay's Button Names
+
+WORK IN PROGRESS... 
+
+|     TVs     |   Audio   |     ACs     |    Fans    |    LEDs    |  Monitors  | Digital Signs |
+|:-----------:|:---------:|:-----------:|:----------:|:----------:|:----------:|:-------------:|
+|   `Smart`   |  `Bass`   |   `Swing`   | `Natural`  |  `Color`   |   `PIP`    |  `Schedule`   |
+|   `Guide`   | `Treble`  |  `Fan_spd`  |  `Night`   |   `Tone`   |  `Freeze`  |   `Layout`    |
+|    `PIP`    |   `EQ`    |    `Eco`    | `Humidity` |    `FX`    |   `Auto`   |   `Update`    |
+|    `Fav`    | `Surround`|   `Turbo`   | `Ion/Clean`|   `Sync`   |   `ECO`    |    `Zoom`     |
+|    `CC`     |  `Repeat` |   `Quiet`   |            |            |  `Preset`  |    `Lock`     |
+|  `Aspect`   | `Shuffle` |             |            |            |            |               |
+
+
+### Button Renaming
 
 #### TV Buttons
 
@@ -61,6 +75,44 @@
 |  `Cool_lo`    | cl, cool_low, low_cool, min_cool, cool_min, gentle_cool, gnt_cool |
 |  `Heat_hi`    | hh, heat_high, high_heat, hi_heat, max_heat, heat_max, strong_heat, str_heat |
 |  `Heat_lo`    | hl, heat_low, low_heat, min_heat, heat_min, gentle_heat, gnt_heat |
+
+#### Fan Buttons
+
+| Standard Name |        Alternative Names         |
+|:-------------:|:--------------------------------:|
+|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
+|  `Speed_up`   | sp_up, s+, su, speed_increase, spd_inc, sp+, faster, speed_raise, fan_up, f_up |
+|  `Speed_dn`   | speed_down, sp_down, s-, sd, speed_decrease, spd_dec, sp_dwn, sp-, slower, speed_lower, fan_down, f_dn |
+|   `Mode`      | md, m, function, func, fn, setting, set, option, opt |
+|   `Rotate`    | rot, r, oscillate, osc, swing, swg, turn, trn |
+|   `Timer`     | tmr, t, schedule, sch, auto_off, a_off, delay_off, d_off |
+
+#### LED Buttons
+
+| Standard Name |        Alternative Names         |
+|:-------------:|:--------------------------------:|
+|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
+|   `Bright+`   | brightness+, b+, bu, bright_up, brightness_up, brighter, increase_brightness, inc_bright |
+|   `Bright-`   | brightness-, b-, bd, bright_down, brightness_down, dimmer, decrease_brightness, dec_bright |
+|   `Flash`     | fl, blink, strobe, flicker, pulse, animate, fx, effect |
+
+#### Monitor Buttons
+
+| Standard Name |        Alternative Names         |
+|:-------------:|:--------------------------------:|
+|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
+|   `Source`    | src, input, inp, in, signal, sig, mode, md |
+|   `Menu`      | mn, options, opt, settings, set, config, cfg |
+|   `Exit`      | ex, esc, escape, back, return, ret, close |
+
+#### Digital Signs Buttons
+
+| Standard Name |        Alternative Names         |
+|:-------------:|:--------------------------------:|
+|   `Power`     | pwr, pw, p, on_off, on/off, standby, stby, switch, sw, toggle, tgl, powr |
+|   `Source`    | src, input, inp, in, signal, sig, mode, md |
+|   `Play`      | pl, ply, start, strt, resume, rsm, begin, bgn, playback, pb |
+|   `Stop`      | stp, st, halt, end, finish, terminate, abort |
 
 ## 2. File Naming Convention
 
@@ -131,21 +183,14 @@ An example of a properly formatted `.ir` file:
 Filetype: IR signals file
 Version: 1
 #
-# Brand: Harman Kardon
-# Device Model: AVI200
-# Device Type: Audio and Video Receiver
+# Brand: Viano
+# Remote Model: STV65UHD4K
+# Device Type: TV
 #
 name: Power
 type: parsed
 protocol: NECext
-address: 80 70 00 00
-command: C0 3F 00 00
+address: 00 7F 00 00
+command: 1E E1 00 00
 #
-
-name: Power type: parsed protocol: NEC address: 0xE0E0 command: 0x20DF
-
-name: Vol_up type: parsed protocol: NEC address: 0xE0E0 command: 0xE01F
-
-name: Vol_dn
 ```
-
