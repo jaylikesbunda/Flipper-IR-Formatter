@@ -169,12 +169,6 @@ When contributing to the IRDB:
 
 2. **Verify Data**: Double-check all metadata and button names for accuracy.
 
-3. **Compress Files**: If submitting multiple files, compress them into a `.zip` archive while preserving the folder structure.
-
-4. **Provide Contact**: Include your contact information or GitHub username if others need to reach out for clarifications (optional).
-
-5. **License Agreement**: By submitting, you agree that your contributions can be used and distributed under the project's license terms.
-
 ## 6. Example IR File Structure
 
 An example of a properly formatted `.ir` file:
