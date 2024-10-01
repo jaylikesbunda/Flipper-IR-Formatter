@@ -533,13 +533,14 @@ function getDeviceTypeKey(selectedDeviceType) {
         // TVs and related devices
         "TV": "TV",
         "Projector": "TV",
-        "Monitor": "Monitor",
+        "Monitor": "TV",
         "Set-Top Box": "TV",
         "Cable Box": "TV",
         "Satellite Receiver": "TV",
         "Streaming Device": "TV",
         "TV Tuner": "TV",
         "DVB-T": "TV",
+        "Universal TV Remote": "TV",
 
         // Audio devices
         "Audio and Video Receiver": "Audio",
@@ -552,25 +553,48 @@ function getDeviceTypeKey(selectedDeviceType) {
         "VCR": "Audio",
         "Laserdisc Player": "Audio",
 
-        // Air Conditioners
+        // Air Conditioners and Climate Control
         "AC": "AC",
-        "Air Conditioner": "AC",
+        "Air Purifier": "AC",
+        "Heater": "AC",
+        "Humidifier": "AC",
 
         // Fans
         "Fan": "Fan",
-        "Ceiling Fan": "Fan",
-        "Standing Fan": "Fan",
 
-        // LEDs
-        "LED": "LED",
-        "Light": "LED",
-        "Lamp": "LED",
+        // LEDs and Lighting
+        "Lights": "LED",
+        "LED Lighting": "LED",
 
-        // Digital Signs
-        "Digital Signs": "DigitalSigns",
-        "Digital Signage": "DigitalSigns",
+        // Digital Signs and Displays
+        "Digital Sign": "DigitalSigns",
+        "Touchscreen Display": "DigitalSigns",
+        "Whiteboard": "DigitalSigns",
 
-        // Default to TV if not found
+        // Devices that might use TV-like controls
+        "Smart Home": "TV",
+        "Computer": "TV",
+        "Gaming Console": "TV",
+        "KVM": "TV",
+        "Camera": "TV",
+        "CCTV": "TV",
+        "Car Multimedia": "TV",
+        "Head Unit": "TV",
+        "Videoconferencing": "TV",
+        "Picture Frame": "TV",
+
+        // Devices with limited controls (defaulting to TV for basic functions)
+        "Vacuum Cleaner": "TV",
+        "Window Cleaner": "TV",
+        "Clock": "TV",
+        "Bidet": "TV",
+        "Fireplace": "TV",
+        "Converter": "TV",
+        "Dust Collector": "TV",
+        "Toy": "TV",
+
+        // Catch-all for unspecified devices
+        "Other": "TV"
     };
     return deviceTypeMapping[selectedDeviceType] || "TV"; // Default to "TV"
 }
