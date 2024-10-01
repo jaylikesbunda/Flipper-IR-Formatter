@@ -27,30 +27,19 @@
 
 ### Jay's Extended Button Names
 
-|     TVs     |   Audio   |     ACs     |    Fans    |    LEDs    |  Monitors  | Digital Signs |
-|:-----------:|:---------:|:-----------:|:----------:|:----------:|:----------:|:-------------:|
-|   `Smart`   |   `Bass`  |   `Swing`   |   `Nat`    |  `Color`   |   `PIP`    |   `Sched`     |
-|   `EPG`     | `Treble`  |    `Fan`    |  `Night`   |   `Tone`   | `Freeze`   |   `Layout`    |
-|    `PIP`    |    `EQ`   |    `Eco`    |   `Humid`  |    `FX`    |   `ECO`    |   `Update`    |
-|    `Fav`    | `Repeat`  |   `Turbo`   |    `Ion`   |   `Sync`   | `Aspect`   |    `Zoom`     |
-|    `CC`     | `Shuffle` |   `Quiet`   |            | `Preset`   |  `Split`   |    `Lock`     |
-|  `Aspect`   |  `Amp`    |   `Sleep`   |            |  `Dimmer`  | `Auto`     |   `Rotate`    |
-|  `Proglist` |           |             |            |            |            |               |
-|    `Red`    |           |             |            |            |            |               |
-|   `Green`   |           |             |            |            |            |               |
-|  `Yellow`   |           |             |            |            |            |               |
-|   `Blue`    |           |             |            |            |            |               |
-
-### Smart TV Buttons
-
-| Standard Name |        Description         |
-|:-------------:|:--------------------------:|
-|  `Youtube`    | YouTube app or shortcut    |
-|   `Netflix`   | Netflix app or shortcut    |
-|    `Prime`    | Amazon Prime Video app     |
-|    `Hulu`     | Hulu app or shortcut       |
-|   `Disney`    | Disney+ app or shortcut    |
-| `Appstore`    | TV's app store or market   |
+|     TVs     |   Audio   |     ACs     |    Fans    |    LEDs    |  Monitors  | Digital Signs |   DVD/Blu-ray   |   Gaming   | Streaming |
+|:-----------:|:---------:|:-----------:|:----------:|:----------:|:----------:|:-------------:|:---------------:|:----------:|:---------:|
+|   `Smart`   |   `Bass`  |   `Swing`   |   `Nat`    |  `Color`   |   `PIP`    |   `Sched`     |    `Eject`      |    `A`     | `Home`    |
+|   `EPG`     | `Treble`  |    `Fan`    |  `Night`   |   `Tone`   | `Freeze`   |   `Layout`    |   `Top_menu`    |    `B`     | `Search`  |
+|    `PIP`    |    `EQ`   |    `Eco`    |   `Humid`  |    `FX`    |   `ECO`    |   `Update`    |    `Angle`      |    `X`     | `Voice`   |
+|    `Fav`    | `Repeat`  |   `Turbo`   |    `Ion`   |   `Sync`   | `Aspect`   |    `Zoom`     |   `Subtitle`    |    `Y`     | `Netflix` |
+|    `CC`     | `Shuffle` |   `Quiet`   |            | `Preset`   |  `Split`   |    `Lock`     |    `Audio`      |   `L1`     | `Prime`   |
+|  `Aspect`   |  `Amp`    |   `Sleep`   |            |  `Dimmer`  | `Auto`     |   `Rotate`    |    `Zoom`       |   `R1`     | `Disney`  |
+|  `Proglist` |           |             |            |            |            |               |        `Next`   | `Options`  | `Hulu`    |
+|    `Red`    |           |             |            |            |            |               |      `Prev`     |  `Share`   |           |
+|   `Green`   |           |             |            |            |            |               |                 | `Capture`  |           |
+|  `Yellow`   |           |             |            |            |            |               |                 |            |           |
+|   `Blue`    |           |             |            |            |            |               |                 |            |           |
 
 ### Button Renaming
 
@@ -121,11 +110,13 @@
 |  `Heat_lo`    | heat_low, eco_heat, heating_low        |
 |     `Dh`      | dehumidify, dry_mode, moisture_remove  |
 |    `Fan`      | fan_speed, air_flow, ventilate         |
-|   `Swing`     | air_direction, louver, vane            |
+|   `Swing`     | air_direction, louver, vane, osc, oscillate  |
 |   `Turbo`     | jet, powerful, boost                   |
 |   `Quiet`     | silent, whisper, low_noise             |
 |   `Sleep`     | night_mode, eco_night, timer           |
 |    `Eco`      | energy_save, power_save                |
+|    `Ion`      | ionizer, air_clean, purify             |
+
 
 #### Fan Buttons
 
@@ -194,6 +185,77 @@
 |    `Zoom`     | scale, resize, magnify                 |
 |    `Lock`     | keypad_lock, child_lock, security      |
 |   `Rotate`    | rotate_screen, orientation             |
+
+#### DVD/Blu-ray Buttons
+
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+|    `Power`    | pwr, powr, on_off, switch, toggle      |
+|    `Eject`    | open_close, disc                       |
+|    `Play`     | start_playback, resume                 |
+|    `Pause`    | pause_playback, break                  |
+|    `Stop`     | end_playback, halt                     |
+|   `Fast_fo`   | fast_forward, ffwd, ff                 |
+|   `Fast_ba`   | fast_backward, rewind, rew             |
+|    `Next`     | skip_forward, track_next               |
+|    `Prev`     | skip_backward, track_prev              |
+|    `Menu`     | disc_menu, root_menu                   |
+|   `Top_menu`  | title_menu, main_menu                  |
+|    `Setup`    | settings, config                       |
+|    `Audio`    | sound_track, language                  |
+|  `Subtitle`   | captions, subs                         |
+|    `Angle`    | camera_angle, view                     |
+|    `Zoom`     | magnify, enlarge                       |
+
+#### Gaming Console Buttons
+
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+|    `Power`    | pwr, powr, on_off, switch, toggle      |
+|     `Up`      | arrow_up, navigate_up                  |
+|    `Down`     | arrow_down, navigate_down              |
+|    `Left`     | arrow_left, navigate_left              |
+|    `Right`    | arrow_right, navigate_right            |
+|    `Start`    | begin, launch                          |
+|   `Select`    | options, menu                          |
+|    `Home`     | dashboard, main_menu                   |
+|     `A`       | cross, green                           |
+|     `B`       | circle, red                            |
+|     `X`       | square, blue                           |
+|     `Y`       | triangle, yellow                       |
+|     `L1`      | lb, left_bumper                        |
+|     `R1`      | rb, right_bumper                       |
+|     `L2`      | lt, left_trigger                       |
+|     `R2`      | rt, right_trigger                      |
+|   `Share`     | capture, record                        |
+| `Touchpad`    | touch, pad                             |
+
+#### Streaming Device Buttons
+
+| Standard Name |        Acceptable Alternatives         |
+|:-------------:|:--------------------------------------:|
+|    `Power`    | pwr, powr, on_off, switch, toggle      |
+|     `Home`    | main_menu, dashboard                   |
+|    `Back`     | return, prev                           |
+|    `Play`     | start_playback, resume                 |
+|    `Pause`    | pause_playback, break                  |
+|   `Play_pa`   | play_pause, play/pause                 |
+|    `Stop`     | end_playback, halt                     |
+|   `Fast_fo`   | fast_forward, ffwd, ff                 |
+|   `Fast_ba`   | fast_backward, rewind, rew             |
+|    `Up`       | arrow_up, navigate_up                  |
+|    `Down`     | arrow_down, navigate_down              |
+|    `Left`     | arrow_left, navigate_left              |
+|    `Right`    | arrow_right, navigate_right            |
+|     `Ok`      | enter, select, confirm                 |
+|   `Search`    | find, lookup                           |
+|    `Voice`    | mic, voice_command                     |
+|   `Netflix`   | netflix_shortcut                       |
+|    `Prime`    | amazon, prime_video                    |
+|    `Hulu`     | hulu_shortcut                          |
+|   `Disney`    | disney_plus, disney+                   |
+|  `Youtube`    | yt, youtube_shortcut                   |
+|  `Appstore`   | app_store, apps                        |
 
 ## 2. File Naming Convention
 
