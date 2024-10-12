@@ -521,46 +521,85 @@ const buttonNameMapping = {
         "pwr": "Power",
         "powr": "Power",
         "on_off": "Power",
-        "switch": "Power",
-        "toggle": "Power",
 
         // Eject
         "eject": "Eject",
         "open_close": "Eject",
         "disc": "Eject",
+        "opn": "Eject",
+        "ej": "Eject",
+        "openclose": "Eject",
 
         // Playback controls
         "play": "Play",
+        "ply": "Play",
+        "start": "Play",
+        "go": "Play",
         "pause": "Pause",
+        "paus": "Pause",
+        "pse": "Pause",
         "stop": "Stop",
+        "stp": "Stop",
+        "halt": "Stop",
         "fastforward": "Fast_fo",
         "fastbackward": "Fast_ba",
         "ff": "Fast_fo",
         "rew": "Fast_ba",
+        "fwd": "Fast_fo",
+        "rwd": "Fast_ba",
+        "ffwd": "Fast_fo",
+        "frwd": "Fast_ba",
         "next": "Next",
+        "nxt": "Next",
+        "skip_forward": "Next",
         "previous": "Prev",
+        "prev": "Prev",
         "skip": "Next",
         "skipback": "Prev",
+        "skip_back": "Prev",
+        "back": "Prev",
 
         // Menu navigation
         "menu": "Menu",
         "disc_menu": "Menu",
         "root_menu": "Menu",
+        "dvd_menu": "Menu",
+        "mnu": "Menu",
         "top_menu": "Top_menu",
         "title_menu": "Top_menu",
+        "main_menu": "Top_menu",
+        "topmenu": "Top_menu",
+        "ttl_menu": "Top_menu",
         "setup": "Setup",
+        "settings": "Setup",
+        "config": "Setup",
+        "stp": "Setup",
         "home": "Home",
+        "main": "Home",
+        "hme": "Home",
 
         // Special functions
         "audio": "Audio",
         "sound_track": "Audio",
         "language": "Audio",
+        "lang": "Audio",
+        "aud": "Audio",
         "subtitle": "Subtitle",
+        "subtitles": "Subtitle",
+        "cc": "Subtitle",
         "captions": "Subtitle",
+        "subs": "Subtitle",
+        "sub": "Subtitle",
         "angle": "Angle",
         "camera_angle": "Angle",
+        "cam": "Angle",
+        "view": "Angle",
+        "ang": "Angle",
         "zoom": "Zoom",
         "magnify": "Zoom",
+        "zoomin": "Zoom",
+        "zoomout": "Zoom",
+        "zm": "Zoom",
 
         // Navigation
         "up": "Up",
@@ -570,12 +609,18 @@ const buttonNameMapping = {
         "enter": "Ok",
         "select": "Ok",
         "ok": "Ok",
+        "confirm": "Ok",
+        "accept": "Ok",
 
         // Color buttons
         "red": "Red",
         "green": "Green",
         "yellow": "Yellow",
-        "blue": "Blue"
+        "blue": "Blue",
+        "r": "Red",
+        "g": "Green",
+        "y": "Yellow",
+        "b": "Blue"
     },
 
     "Gaming": {
@@ -860,6 +905,11 @@ function parseIRFile(content) {
 function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "", deviceTypeKey, deviceLink = "", deviceDescription = "", contributorName = "") {
     let content = `Filetype: IR signals file\nVersion: 1\n#\n`;
 
+    // Sanitize the device description to remove all types of line breaks
+    if (deviceDescription) {
+        deviceDescription = deviceDescription.replace(/[\r\n]+/g, ' ').trim();
+    }
+
     // Create an array of comment lines with device information
     let infoItems = [
         brand ? `Brand: ${brand}` : "",
@@ -870,6 +920,9 @@ function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "
         deviceDescription ? `Description: ${deviceDescription}` : "",
         contributorName ? `Contributor: ${contributorName}` : ""
     ].filter(item => item);
+
+    // **Sanitize each item to remove any line breaks**
+    infoItems = infoItems.map(item => item.replace(/[\r\n]+/g, ' ').trim());
 
     // Add each info item as a separate comment line
     infoItems.forEach(item => {
