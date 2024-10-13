@@ -887,6 +887,7 @@ function parseIRFile(content) {
     return irData;
 }
 
+
 /**
  * Create the content for the output IR file.
  * Includes the header, comments with device information, and button data.
@@ -921,7 +922,7 @@ function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "
         contributorName ? `Contributor: ${contributorName}` : ""
     ].filter(item => item);
 
-    // **Sanitize each item to remove any line breaks**
+    // Sanitize each item to remove any line breaks
     infoItems = infoItems.map(item => item.replace(/[\r\n]+/g, ' ').trim());
 
     // Add each info item as a separate comment line
@@ -954,111 +955,186 @@ function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "
 
 
 /**
+ * Check if the file content matches the expected IR file format.
+ * @param {string} content - The content of the file.
+ * @return {boolean} True if the content is valid, false otherwise.
+ */
+function isValidIRFile(content) {
+    const lines = content.trim().split('\n');
+    return lines[0].trim() === "Filetype: IR signals file" &&
+           lines[1].trim().startsWith("Version:");
+}
+
+
+
+/**
+ * Handle file selection for both single file and folder inputs.
+ * @param {Event} event - The change event from the file input.
+ * @returns {Promise} A promise that resolves when the fields are populated.
+ */
+function handleFileSelection(event) {
+    console.log('handleFileSelection called', event.target.id);
+    return new Promise((resolve, reject) => {
+        const files = event.target.files;
+        console.log('Number of files:', files.length);
+        if (files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                console.log('File read successfully');
+                const content = e.target.result;
+                console.log('File content (first 100 chars):', content.substring(0, 100));
+                const metadata = extractMetadata(content);
+                console.log('Extracted metadata:', metadata);
+                populateFields(metadata);
+                console.log('Fields populated');
+                resolve();
+            };
+            reader.onerror = function(error) {
+                console.error('Error reading file:', error);
+                reject(error);
+            };
+            console.log('Starting to read file');
+            reader.readAsText(files[0]); // Read the first file
+        } else {
+            console.log('No files selected');
+            resolve(); // Resolve immediately if no files are selected
+        }
+    });
+}
+
+/**
  * Process multiple IR files selected by the user.
  * Parses each file, normalizes button names, and creates a ZIP archive
  * containing the processed IR files, preserving folder structure.
  */
 function processIRFiles() {
-    // Get selected files from both file inputs
-    const fileInputFiles = document.getElementById("file-input-files");
-    const fileInputFolder = document.getElementById("file-input-folder");
+    console.log('processIRFiles called');
+    // Ensure fields are populated before processing
+    Promise.all([
+        handleFileSelection({target: document.getElementById("file-input-files")}),
+        handleFileSelection({target: document.getElementById("file-input-folder")})
+    ]).then(() => {
+        console.log('All file selections handled');
+        const fileInputFiles = document.getElementById("file-input-files");
+        const fileInputFolder = document.getElementById("file-input-folder");
 
-    const filesFromFilesInput = fileInputFiles.files;
-    const filesFromFolderInput = fileInputFolder.files;
+        const filesFromFilesInput = fileInputFiles.files;
+        const filesFromFolderInput = fileInputFolder.files;
 
-    // Combine files from both inputs
-    const allFiles = [...filesFromFilesInput, ...filesFromFolderInput];
+        console.log('Files from file input:', filesFromFilesInput.length);
+        console.log('Files from folder input:', filesFromFolderInput.length);
 
-    if (!allFiles.length) {
-        alert("Please select .ir files or a folder containing .ir files.");
-        return;
-    }
+        // Combine files from both inputs
+        const allFiles = [...filesFromFilesInput, ...filesFromFolderInput];
+        console.log('Total files:', allFiles.length);
 
-    // Get device type and other inputs from the user
-    const deviceType = document.getElementById("device-type").value;
-    const deviceTypeKey = getDeviceTypeKey(deviceType);
-    const deviceLink = document.getElementById("device-link").value.trim();
-    const deviceDescription = document.getElementById("device-description").value.trim();
-    const brandInput = document.getElementById("brand").value.trim();
-    const deviceModelInput = document.getElementById("device-model").value.trim();
-    const remoteModelInput = document.getElementById("remote-model").value.trim();
-    const contributorName = document.getElementById("contributor-name").value.trim();
+        if (!allFiles.length) {
+            console.log('No files selected');
+            alert("Please select .ir files or a folder containing .ir files.");
+            return;
+        }
 
-    if (!deviceType) {
-        alert("Please select a device type.");
-        return;
-    }
+        // Filter .ir files
+        const irFiles = Array.from(allFiles).filter(file => file.name.toLowerCase().endsWith('.ir'));
+        console.log('Number of .ir files:', irFiles.length);
 
-    // Filter .ir files
-    const irFiles = Array.from(allFiles).filter(file => file.name.endsWith('.ir'));
+        if (irFiles.length === 0) {
+            console.log('No .ir files found');
+            alert("No .ir files found in the selected files/folder.");
+            return;
+        }
 
-    if (irFiles.length === 0) {
-        alert("No .ir files found in the selected files/folder.");
-        return;
-    }
+        const zip = new JSZip();
+        const promises = [];
 
-    const zip = new JSZip();
-    const promises = [];
+        irFiles.forEach((file, index) => {
+            console.log(`Processing file ${index + 1}/${irFiles.length}: ${file.name}`);
+            const promise = new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    try {
+                        const fileContent = event.target.result;
+                        console.log(`File ${file.name} content length:`, fileContent.length);
+                        if (!isValidIRFile(fileContent)) {
+                            throw new Error(`Invalid IR file format: ${file.name}`);
+                        }
+                        const irData = parseIRFile(fileContent);
+                        console.log(`Parsed IR data for ${file.name}:`, irData.length, 'buttons');
+                        
+                        // Extract metadata for this specific file
+                        const metadata = extractMetadata(fileContent);
+                        console.log(`Metadata for ${file.name}:`, metadata);
+                        
+                        // Use the extracted metadata or fall back to user input
+                        const deviceType = document.getElementById("device-type").value;
+                        const deviceTypeKey = getDeviceTypeKey(deviceType);
+                        let brand = metadata.brand || document.getElementById("brand").value.trim();
+                        let remoteModel = metadata['remote model'] || document.getElementById("remote-model").value.trim();
+                        let deviceModel = metadata['device model'] || document.getElementById("device-model").value.trim();
+                        const deviceLink = metadata.link || document.getElementById("device-link").value.trim();
+                        const deviceDescription = metadata.description || document.getElementById("device-description").value.trim();
+                        const contributorName = metadata.contributor || document.getElementById("contributor-name").value.trim();
 
-    irFiles.forEach(file => {
-        const promise = new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const fileContent = event.target.result;
-                const irData = parseIRFile(fileContent);
-                
-                // Extract brand and remote model from filename if not provided
-                let brand = brandInput;
-                let remoteModel = remoteModelInput;
+                        console.log('Using values:', { deviceType, brand, remoteModel, deviceModel, deviceLink, deviceDescription, contributorName });
 
-                if (!brand || !remoteModel) {
-                    const extracted = extractBrandAndModel(file.name);
-                    if (!brand) brand = extracted.brand;
-                    if (!remoteModel) remoteModel = extracted.remoteModel;
-                }
+                        // If brand and remote model are still not available, try to extract from filename
+                        if (!brand || !remoteModel) {
+                            const extracted = extractBrandAndModel(file.name);
+                            if (!brand) brand = extracted.brand;
+                            if (!remoteModel) remoteModel = extracted.remoteModel;
+                            console.log('Extracted from filename:', extracted);
+                        }
 
-                const processedContent = createIRContent(
-                    irData,
-                    brand,
-                    remoteModel,
-                    deviceType,
-                    deviceModelInput,
-                    deviceTypeKey,
-                    deviceLink,
-                    deviceDescription,
-                    contributorName
-                );
+                        const processedContent = createIRContent(
+                            irData,
+                            brand,
+                            remoteModel,
+                            deviceType,
+                            deviceModel,
+                            deviceTypeKey,
+                            deviceLink,
+                            deviceDescription,
+                            contributorName
+                        );
+                        console.log(`Processed content length for ${file.name}:`, processedContent.length);
 
-                // Preserve folder structure if available
-                let relativePath = file.webkitRelativePath || file.name;
-                // Remove any leading folder names (e.g., if selecting files directly)
-                const pathParts = relativePath.split('/');
-                if (pathParts.length > 1) {
-                    pathParts.shift(); // Remove the first folder (since webkitRelativePath includes the folder name)
-                    relativePath = pathParts.join('/');
-                } else {
-                    relativePath = pathParts[0];
-                }
+                        // Preserve folder structure if available
+                        let relativePath = file.webkitRelativePath || file.name;
+                        console.log('Relative path:', relativePath);
 
-                // Use the same relative path in the ZIP
-                zip.file(relativePath, processedContent);
-                resolve();
-            };
-            reader.onerror = function(error) {
-                reject(error);
-            };
-            reader.readAsText(file);
+                        // Use the same relative path in the ZIP
+                        zip.file(relativePath, processedContent);
+                        console.log(`File ${file.name} added to ZIP`);
+                        resolve();
+                    } catch (error) {
+                        console.error(`Error processing file ${file.name}:`, error);
+                        reject(error);
+                    }
+                };
+                reader.onerror = function(error) {
+                    console.error(`Error reading file ${file.name}:`, error);
+                    reject(error);
+                };
+                reader.readAsText(file);
+            });
+            promises.push(promise);
         });
-        promises.push(promise);
-    });
 
-    // Generate the ZIP file and trigger download
-    Promise.all(promises).then(() => {
-        zip.generateAsync({type:"blob"}).then(function(content) {
-            saveAs(content, "formatted_ir_files.zip");
+        // Generate the ZIP file and trigger download
+        Promise.all(promises).then(() => {
+            console.log('All files processed, generating ZIP');
+            zip.generateAsync({type:"blob"}).then(function(content) {
+                console.log('ZIP generated, size:', content.size);
+                saveAs(content, "formatted_ir_files.zip");
+                console.log('ZIP file saved');
+            });
+        }).catch(error => {
+            console.error('Error during ZIP generation:', error);
+            alert(`Error processing files: ${error.message}`);
         });
     }).catch(error => {
-        alert("Error processing files: " + error);
+        console.error("Error populating fields:", error);
+        alert("Error populating fields. Please try again.");
     });
 }
 
@@ -1084,6 +1160,7 @@ function extractBrandAndModel(filename) {
     return { brand, remoteModel };
 }
 
+
 // DOM Elements and Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
@@ -1104,33 +1181,189 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggleButton.addEventListener('click', () => {
         const currentTheme = body.classList.contains('light-mode') ? 'light-mode' : 'dark-mode';
         const newTheme = currentTheme === 'light-mode' ? 'dark-mode' : 'light-mode';
-
         body.classList.remove(currentTheme);
         body.classList.add(newTheme);
         localStorage.setItem('theme', newTheme);
         updateButtonText(newTheme);
     });
 
+    // Handle file selection and UI update for individual files
+    fileInputFiles.addEventListener('change', (event) => {
+        handleFileSelection(event).then(() => {
+            updateFileInputLabel(event.target);
+        });
+    });
+
+    // Handle file selection and UI update for folder
+    fileInputFolder.addEventListener('change', (event) => {
+        handleFileSelection(event).then(() => {
+            updateFileInputLabel(event.target);
+        });
+    });
+
     // File processing on button click
     processButton.addEventListener('click', processIRFiles);
-
-    // Update file input labels
-    fileInputFiles.addEventListener('change', (event) => {
-        const fileCount = event.target.files.length;
-        const fileName = fileCount > 1 ? `${fileCount} files selected` : event.target.files[0]?.name || 'Choose files...';
-        fileInputFiles.nextElementSibling.textContent = fileName;
-    });
-
-    fileInputFolder.addEventListener('change', (event) => {
-        const fileCount = event.target.files.length;
-        const folderName = fileCount > 0 ? `Folder selected with ${fileCount} files` : 'Choose a folder...';
-        fileInputFolder.nextElementSibling.textContent = folderName;
-    });
 });
 
 /**
  * Update the theme toggle button text based on the current theme.
  *
+ * @param {string} theme - The current theme ('light-mode' or 'dark-mode').
+ */
+function updateButtonText(theme) {
+    const themeToggleButton = document.getElementById('theme-toggle-button');
+    themeToggleButton.textContent = theme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+}
+/**
+ * Extract metadata from the IR file content.
+ * @param {string} content - The content of the IR file.
+ * @return {Object} An object containing extracted metadata.
+ */
+function extractMetadata(content) {
+    console.log('Extracting metadata from content');
+    const metadata = {};
+    const lines = content.split('\n');
+    console.log('Total lines in content:', lines.length);
+
+    let metadataStarted = false;
+
+    for (const line of lines) {
+        console.log('Processing line:', line);
+        
+        // Skip the first two lines (file type and version)
+        if (!metadataStarted) {
+            if (line.startsWith('Filetype:') || line.startsWith('Version:')) {
+                console.log('Skipping header line');
+                continue;
+            } else {
+                metadataStarted = true;
+            }
+        }
+
+        if (line.startsWith('#')) {
+            const trimmedLine = line.slice(1).trim(); // Remove '#' and trim
+            console.log('Trimmed comment line:', trimmedLine);
+            const colonIndex = trimmedLine.indexOf(':');
+            if (colonIndex !== -1) {
+                const key = trimmedLine.slice(0, colonIndex).trim().toLowerCase();
+                const value = trimmedLine.slice(colonIndex + 1).trim();
+                console.log('Extracted key-value pair:', key, '-', value);
+                if (key && value) {
+                    metadata[key] = value;
+                }
+            } else {
+                console.log('No colon found in line, skipping');
+            }
+        } else if (line.trim() === '') {
+            console.log('Empty line, continuing');
+            continue;
+        } else if (metadataStarted) {
+            console.log('Non-comment line found after metadata, stopping extraction');
+            break; // Stop when we reach the actual IR data
+        }
+    }
+
+    console.log('Final extracted metadata:', metadata);
+    return metadata;
+}
+/**
+ * Handle file selection for both single file and folder inputs.
+ * @param {Event} event - The change event from the file input.
+ * @returns {Promise} A promise that resolves when the fields are populated.
+ */
+function handleFileSelection(event) {
+    console.log('handleFileSelection called', event.target.id);
+    return new Promise((resolve, reject) => {
+        const files = event.target.files;
+        console.log('Number of files:', files.length);
+        if (files.length > 0) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                console.log('File read successfully');
+                const content = e.target.result;
+                console.log('File content (first 100 chars):', content.substring(0, 100));
+                const metadata = extractMetadata(content);
+                console.log('Extracted metadata:', metadata);
+                populateFields(metadata);
+                console.log('Fields populated');
+                resolve();
+            };
+            reader.onerror = function(error) {
+                console.error('Error reading file:', error);
+                reject(error);
+            };
+            console.log('Starting to read file');
+            reader.readAsText(files[0]); // Read the first file
+        } else {
+            console.log('No files selected');
+            resolve(); // Resolve immediately if no files are selected
+        }
+    });
+}
+
+/**
+ * Auto-populate HTML fields with extracted metadata.
+ * @param {Object} metadata - The extracted metadata.
+ */
+function populateFields(metadata) {
+    console.log('Populating fields with metadata:', metadata);
+
+    if (metadata.brand) {
+        console.log('Setting brand:', metadata.brand);
+        document.getElementById('brand').value = metadata.brand;
+    }
+    if (metadata['remote model']) {
+        console.log('Setting remote model:', metadata['remote model']);
+        document.getElementById('remote-model').value = metadata['remote model'];
+    }
+    if (metadata['device model']) {
+        console.log('Setting device model:', metadata['device model']);
+        document.getElementById('device-model').value = metadata['device model'];
+    }
+    if (metadata['device type']) {
+        console.log('Setting device type:', metadata['device type']);
+        const deviceTypeSelect = document.getElementById('device-type');
+        const option = Array.from(deviceTypeSelect.options).find(opt => opt.text.toLowerCase() === metadata['device type'].toLowerCase());
+        if (option) {
+            deviceTypeSelect.value = option.value;
+        } else {
+            console.log('No matching device type option found');
+        }
+    }
+    if (metadata.link) {
+        console.log('Setting link:', metadata.link);
+        document.getElementById('device-link').value = metadata.link;
+    }
+    if (metadata.description) {
+        console.log('Setting description:', metadata.description);
+        document.getElementById('device-description').value = metadata.description;
+    }
+    if (metadata.contributor) {
+        console.log('Setting contributor:', metadata.contributor);
+        document.getElementById('contributor-name').value = metadata.contributor;
+    }
+
+    console.log('Field population complete');
+}
+/**
+ * Update the label text for file inputs.
+ * @param {HTMLInputElement} inputElement - The file input element.
+ */
+function updateFileInputLabel(inputElement) {
+    const fileCount = inputElement.files.length;
+    let labelText;
+
+    if (inputElement.id === 'file-input-files') {
+        labelText = fileCount > 1 ? `${fileCount} files selected` : inputElement.files[0]?.name || 'Choose files...';
+    } else {
+        labelText = fileCount > 0 ? `Folder selected with ${fileCount} files` : 'Choose a folder...';
+    }
+
+    inputElement.nextElementSibling.textContent = labelText;
+}
+
+/**
+ * Update the theme toggle button text based on the current theme.
  * @param {string} theme - The current theme ('light-mode' or 'dark-mode').
  */
 function updateButtonText(theme) {
