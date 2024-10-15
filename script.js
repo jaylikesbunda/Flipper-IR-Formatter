@@ -911,7 +911,6 @@ function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "
         deviceDescription = deviceDescription.replace(/[\r\n]+/g, ' ').trim();
     }
 
-    // Create an array of comment lines with device information
     let infoItems = [
         brand && `Brand: ${brand}`,
         remoteModel && `Remote Model: ${remoteModel}`,
@@ -1012,6 +1011,26 @@ function handleFileSelection(event) {
     });
 }
 
+
+/**
+ * Process and consolidate device information from various sources.
+ * @param {Object} userInput - Device info entered by the user
+ * @param {Object} fileMetadata - Metadata extracted from the file
+ * @param {Object} filenameInfo - Info extracted from the filename
+ * @return {Object} Consolidated device information
+ */
+function processDeviceInfo(userInput, fileMetadata, filenameInfo) {
+    return {
+        deviceType: userInput.deviceType || fileMetadata['device type'] || 'Unknown',
+        brand: userInput.brand || fileMetadata.brand || filenameInfo.brand || null,
+        remoteModel: userInput.remoteModel || fileMetadata['remote model'] || filenameInfo.remoteModel || null,
+        deviceModel: userInput.deviceModel || fileMetadata['device model'] || filenameInfo.deviceModel || null,
+        deviceLink: userInput.deviceLink || fileMetadata.link || null,
+        deviceDescription: userInput.deviceDescription || fileMetadata.description || null,
+        contributorName: userInput.contributorName || fileMetadata.contributor || null
+    };
+}
+
 /**
  * Process multiple IR files selected by the user.
  * Parses each file, normalizes button names, and creates a ZIP archive
@@ -1019,23 +1038,14 @@ function handleFileSelection(event) {
  */
 function processIRFiles() {
     console.log('processIRFiles called');
-    // Ensure fields are populated before processing
+
     Promise.all([
         handleFileSelection({target: document.getElementById("file-input-files")}),
         handleFileSelection({target: document.getElementById("file-input-folder")})
     ]).then(() => {
         console.log('All file selections handled');
-        const fileInputFiles = document.getElementById("file-input-files");
-        const fileInputFolder = document.getElementById("file-input-folder");
-
-        const filesFromFilesInput = fileInputFiles.files;
-        const filesFromFolderInput = fileInputFolder.files;
-
-        console.log('Files from file input:', filesFromFilesInput.length);
-        console.log('Files from folder input:', filesFromFolderInput.length);
-
-        // Combine files from both inputs
-        const allFiles = [...filesFromFilesInput, ...filesFromFolderInput];
+        const allFiles = [...document.getElementById("file-input-files").files, 
+                          ...document.getElementById("file-input-folder").files];
         console.log('Total files:', allFiles.length);
 
         if (!allFiles.length) {
@@ -1044,7 +1054,6 @@ function processIRFiles() {
             return;
         }
 
-        // Filter .ir files
         const irFiles = Array.from(allFiles).filter(file => file.name.toLowerCase().endsWith('.ir'));
         console.log('Number of .ir files:', irFiles.length);
 
@@ -1055,106 +1064,127 @@ function processIRFiles() {
         }
 
         const zip = new JSZip();
-        const promises = [];
+        const processFilePromises = irFiles.map((file, index) => processFile(file, index, irFiles.length, zip));
 
-        irFiles.forEach((file, index) => {
-            console.log(`Processing file ${index + 1}/${irFiles.length}: ${file.name}`);
-            const promise = new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    try {
-                        const fileContent = event.target.result;
-                        console.log(`File ${file.name} content length:`, fileContent.length);
-                        if (!isValidIRFile(fileContent)) {
-                            throw new Error(`Invalid IR file format: ${file.name}`);
-                        }
-                        const irData = parseIRFile(fileContent);
-                        console.log(`Parsed IR data for ${file.name}:`, irData.length, 'buttons');
-                        
-                        const metadata = extractMetadata(fileContent);
-                        console.log(`Metadata for ${file.name}:`, metadata);
-                        
-                        // Get current input field values for each file
-                        const userDeviceType = document.getElementById("device-type").value;
-                        const userBrand = document.getElementById("brand").value.trim();
-                        const userRemoteModel = document.getElementById("remote-model").value.trim();
-                        const userDeviceModel = document.getElementById("device-model").value.trim();
-                        const userDeviceLink = document.getElementById("device-link").value.trim();
-                        const userDeviceDescription = document.getElementById("device-description").value.trim();
-                        const userContributorName = document.getElementById("contributor-name").value.trim();
-    
-                        // Extract information from filename
-                        const extracted = extractBrandAndModel(file.name);
-    
-                        // Prioritize user-entered values, then metadata, then extracted from filename
-                        const deviceType = userDeviceType || metadata['device type'] || 'Unknown';
-                        const deviceTypeKey = getDeviceTypeKey(deviceType);
-                        let brand = userBrand || metadata.brand || extracted.brand || null;
-                        let remoteModel = userRemoteModel || metadata['remote model'] || extracted.remoteModel || null;
-                        let deviceModel = userDeviceModel || metadata['device model'] || extracted.remoteModel || null;
-                        const deviceLink = userDeviceLink || metadata.link || null;
-                        const deviceDescription = userDeviceDescription || metadata.description || null;
-                        const contributorName = userContributorName || metadata.contributor || null;
-    
-                        console.log('Using values:', { deviceType, brand, remoteModel, deviceModel, deviceLink, deviceDescription, contributorName });
-    
-                        const processedContent = createIRContent(
-                            irData,
-                            brand,
-                            userRemoteModel,  // Use userRemoteModel instead of remoteModel
-                            deviceType,
-                            userDeviceModel,  // Use userDeviceModel instead of deviceModel
-                            deviceTypeKey,
-                            deviceLink,
-                            deviceDescription,
-                            contributorName
-                        );
-                        // Preserve folder structure if available
-                        let relativePath = file.webkitRelativePath || file.name;
-                        console.log('Relative path:', relativePath);
-
-                        // Use the same relative path in the ZIP
-                        zip.file(relativePath, processedContent);
-                        console.log(`File ${file.name} added to ZIP`);
-                        resolve();
-                    } catch (error) {
-                        console.error(`Error processing file ${file.name}:`, error);
-                        reject(error);
-                    }
-                };
-                reader.onerror = function(error) {
-                    console.error(`Error reading file ${file.name}:`, error);
-                    reject(error);
-                };
-                reader.readAsText(file);
-            });
-            promises.push(promise);
-        });
-
-        // Generate the ZIP file and trigger download
-        Promise.all(promises).then(() => {
-            console.log('All files processed, generating ZIP');
-            zip.generateAsync({type:"blob"}).then(function(content) {
+        Promise.all(processFilePromises)
+            .then(() => {
+                console.log('All files processed, generating ZIP');
+                return zip.generateAsync({type:"blob"});
+            })
+            .then(content => {
                 console.log('ZIP generated, size:', content.size);
                 saveAs(content, "formatted_ir_files.zip");
                 console.log('ZIP file saved');
+            })
+            .catch(error => {
+                console.error('Error during processing:', error);
+                alert(`Error processing files: ${error.message}`);
             });
-        }).catch(error => {
-            console.error('Error during ZIP generation:', error);
-            alert(`Error processing files: ${error.message}`);
-        });
     }).catch(error => {
         console.error("Error populating fields:", error);
         alert("Error populating fields. Please try again.");
     });
 }
 
+
 /**
- * Extract the brand and remote model from the filename.
+ * Process a single IR file.
+ * @param {File} file - The file to process
+ * @param {number} index - The index of the file in the array
+ * @param {number} total - The total number of files
+ * @param {JSZip} zip - The JSZip object to add the processed file to
+ * @returns {Promise} A promise that resolves when the file is processed
+ */
+function processFile(file, index, total, zip) {
+    console.log(`Processing file ${index + 1}/${total}: ${file.name}`);
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            try {
+                const fileContent = event.target.result;
+                if (!isValidIRFile(fileContent)) {
+                    throw new Error(`Invalid IR file format: ${file.name}`);
+                }
+                const irData = parseIRFile(fileContent);
+                const metadata = extractMetadata(fileContent);
+                
+                const userInput = getUserInput();
+                const extracted = extractBrandAndModel(file.name);
+                const deviceInfo = consolidateDeviceInfo(userInput, metadata, extracted);
+                
+                console.log('Using values:', deviceInfo);
+
+                const processedContent = createIRContent(
+                    irData,
+                    deviceInfo.brand,
+                    deviceInfo.remoteModel,
+                    deviceInfo.deviceType,
+                    deviceInfo.deviceModel,
+                    deviceInfo.deviceTypeKey,
+                    deviceInfo.deviceLink,
+                    deviceInfo.deviceDescription,
+                    deviceInfo.contributorName
+                );
+
+                const relativePath = file.webkitRelativePath || file.name;
+                zip.file(relativePath, processedContent);
+                console.log(`File ${file.name} added to ZIP`);
+                resolve();
+            } catch (error) {
+                console.error(`Error processing file ${file.name}:`, error);
+                reject(error);
+            }
+        };
+        reader.onerror = error => reject(error);
+        reader.readAsText(file);
+    });
+}
+
+/**
+ * Consolidate device information from various sources.
+ * @param {Object} userInput - User input from form fields
+ * @param {Object} metadata - Metadata extracted from file content
+ * @param {Object} extracted - Information extracted from filename
+ * @returns {Object} Consolidated device information
+ */
+function consolidateDeviceInfo(userInput, metadata, extracted) {
+    const deviceType = userInput.deviceType || metadata['device type'] || 'Unknown';
+    return {
+        deviceType: deviceType,
+        deviceTypeKey: getDeviceTypeKey(deviceType),
+        brand: userInput.brand || metadata.brand || extracted.brand || null,
+        remoteModel: userInput.remoteModel || metadata['remote model'] || null,
+        deviceModel: userInput.deviceModel || metadata['device model'] || extracted.deviceModel || null,
+        deviceLink: userInput.deviceLink || metadata.link || null,
+        deviceDescription: userInput.deviceDescription || metadata.description || null,
+        contributorName: userInput.contributorName || metadata.contributor || null
+    };
+}
+
+/**
+ * Get user input from form fields.
+ * @returns {Object} An object containing user input values
+ */
+function getUserInput() {
+    return {
+        deviceType: document.getElementById("device-type").value,
+        brand: document.getElementById("brand").value.trim(),
+        remoteModel: document.getElementById("remote-model").value.trim(),
+        deviceModel: document.getElementById("device-model").value.trim(),
+        deviceLink: document.getElementById("device-link").value.trim(),
+        deviceDescription: document.getElementById("device-description").value.trim(),
+        contributorName: document.getElementById("contributor-name").value.trim()
+    };
+}
+
+
+
+/**
+ * Extract the brand and device model from the filename.
  * Assumes the filename is in the format Brand_MODEL.ext
  *
  * @param {string} filename - The filename of the IR file.
- * @return {Object} An object containing the brand and remote model.
+ * @return {Object} An object containing the brand and device model.
  */
 function extractBrandAndModel(filename) {
     // Remove extension
@@ -1165,11 +1195,10 @@ function extractBrandAndModel(filename) {
 
     // Assuming the format is Brand_MODEL
     const brand = parts[0] || "";
-    const remoteModel = parts.slice(1).join("_") || "";
+    const deviceModel = parts.slice(1).join("_") || "";
 
-    return { brand, remoteModel };
+    return { brand, deviceModel };
 }
-
 
 // DOM Elements and Event Listeners
 document.addEventListener('DOMContentLoaded', () => {

@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="light-mode">
-    <div class="container">
-        <h1>Flipper IRDB Formatter v1.1</h1>
+    <canvas id="bgCanvas"></canvas>
+    <div class="content-wrapper">
+        <div class="container">
+        <h1>Flipper IRDB Formatter v1.2</h1>
 
         <!-- File selection -->
         <label>Step 1: Select the .ir files or folder containing .ir files you want to format</label>
@@ -138,6 +140,7 @@
     </h1>
 
     <!-- Include JSZip and FileSaver.js libraries -->
+    <script src="background.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="script.js"></script>

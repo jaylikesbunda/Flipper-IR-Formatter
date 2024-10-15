@@ -366,3 +366,41 @@ body.dark-mode .explanatory-text {
         font-size: 12px;
     }
 }
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+}
+
+.container {
+    /* Your existing container styles */
+
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Add styles for dark mode */
+body.dark-mode .content-wrapper {
+    background-color: rgba(0, 0, 0, 0); /* Semi-transparent black background */
+
+}
+
+/* Rest of your existing styles */
