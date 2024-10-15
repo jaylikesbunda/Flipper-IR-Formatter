@@ -913,14 +913,14 @@ function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "
 
     // Create an array of comment lines with device information
     let infoItems = [
-        brand ? `Brand: ${brand}` : "",
-        remoteModel ? `Remote Model: ${remoteModel}` : "",
-        deviceModel ? `Device Model: ${deviceModel}` : "",
-        deviceType ? `Device Type: ${deviceType}` : "",
-        deviceLink ? `Link: ${deviceLink}` : "",
-        deviceDescription ? `Description: ${deviceDescription}` : "",
-        contributorName ? `Contributor: ${contributorName}` : ""
-    ].filter(item => item);
+        brand && `Brand: ${brand}`,
+        remoteModel && `Remote Model: ${remoteModel}`,
+        deviceModel && `Device Model: ${deviceModel}`,
+        deviceType && `Device Type: ${deviceType}`,
+        deviceLink && `Link: ${deviceLink}`,
+        deviceDescription && `Description: ${deviceDescription}`,
+        contributorName && `Contributor: ${contributorName}`
+    ].filter(Boolean);  // This will filter out any falsy values (undefined, empty strings, etc.)
 
     // Sanitize each item to remove any line breaks
     infoItems = infoItems.map(item => item.replace(/[\r\n]+/g, ' ').trim());
@@ -929,6 +929,7 @@ function createIRContent(irData, brand, remoteModel, deviceType, deviceModel = "
     infoItems.forEach(item => {
         content += `# ${item}\n`;
     });
+
 
     content += "#\n"; // Add a blank comment line
 
@@ -985,7 +986,16 @@ function handleFileSelection(event) {
                 console.log('File content (first 100 chars):', content.substring(0, 100));
                 const metadata = extractMetadata(content);
                 console.log('Extracted metadata:', metadata);
-                populateFields(metadata);
+                
+                // Extract brand and model from filename
+                const extracted = extractBrandAndModel(files[0].name);
+                console.log('Extracted from filename:', extracted);
+                
+                // Merge extracted data with metadata
+                const mergedData = { ...extracted, ...metadata };
+                console.log('Merged data:', mergedData);
+                
+                populateFields(mergedData);
                 console.log('Fields populated');
                 resolve();
             };
@@ -1061,43 +1071,44 @@ function processIRFiles() {
                         const irData = parseIRFile(fileContent);
                         console.log(`Parsed IR data for ${file.name}:`, irData.length, 'buttons');
                         
-                        // Extract metadata for this specific file
                         const metadata = extractMetadata(fileContent);
                         console.log(`Metadata for ${file.name}:`, metadata);
                         
-                        // Use the extracted metadata or fall back to user input
-                        const deviceType = document.getElementById("device-type").value;
+                        // Get current input field values for each file
+                        const userDeviceType = document.getElementById("device-type").value;
+                        const userBrand = document.getElementById("brand").value.trim();
+                        const userRemoteModel = document.getElementById("remote-model").value.trim();
+                        const userDeviceModel = document.getElementById("device-model").value.trim();
+                        const userDeviceLink = document.getElementById("device-link").value.trim();
+                        const userDeviceDescription = document.getElementById("device-description").value.trim();
+                        const userContributorName = document.getElementById("contributor-name").value.trim();
+    
+                        // Extract information from filename
+                        const extracted = extractBrandAndModel(file.name);
+    
+                        // Prioritize user-entered values, then metadata, then extracted from filename
+                        const deviceType = userDeviceType || metadata['device type'] || 'Unknown';
                         const deviceTypeKey = getDeviceTypeKey(deviceType);
-                        let brand = metadata.brand || document.getElementById("brand").value.trim();
-                        let remoteModel = metadata['remote model'] || document.getElementById("remote-model").value.trim();
-                        let deviceModel = metadata['device model'] || document.getElementById("device-model").value.trim();
-                        const deviceLink = metadata.link || document.getElementById("device-link").value.trim();
-                        const deviceDescription = metadata.description || document.getElementById("device-description").value.trim();
-                        const contributorName = metadata.contributor || document.getElementById("contributor-name").value.trim();
-
+                        let brand = userBrand || metadata.brand || extracted.brand || null;
+                        let remoteModel = userRemoteModel || metadata['remote model'] || extracted.remoteModel || null;
+                        let deviceModel = userDeviceModel || metadata['device model'] || extracted.remoteModel || null;
+                        const deviceLink = userDeviceLink || metadata.link || null;
+                        const deviceDescription = userDeviceDescription || metadata.description || null;
+                        const contributorName = userContributorName || metadata.contributor || null;
+    
                         console.log('Using values:', { deviceType, brand, remoteModel, deviceModel, deviceLink, deviceDescription, contributorName });
-
-                        // If brand and remote model are still not available, try to extract from filename
-                        if (!brand || !remoteModel) {
-                            const extracted = extractBrandAndModel(file.name);
-                            if (!brand) brand = extracted.brand;
-                            if (!remoteModel) remoteModel = extracted.remoteModel;
-                            console.log('Extracted from filename:', extracted);
-                        }
-
+    
                         const processedContent = createIRContent(
                             irData,
                             brand,
-                            remoteModel,
+                            userRemoteModel,  // Use userRemoteModel instead of remoteModel
                             deviceType,
-                            deviceModel,
+                            userDeviceModel,  // Use userDeviceModel instead of deviceModel
                             deviceTypeKey,
                             deviceLink,
                             deviceDescription,
                             contributorName
                         );
-                        console.log(`Processed content length for ${file.name}:`, processedContent.length);
-
                         // Preserve folder structure if available
                         let relativePath = file.webkitRelativePath || file.name;
                         console.log('Relative path:', relativePath);
@@ -1137,7 +1148,6 @@ function processIRFiles() {
         alert("Error populating fields. Please try again.");
     });
 }
-
 
 /**
  * Extract the brand and remote model from the filename.
@@ -1284,7 +1294,16 @@ function handleFileSelection(event) {
                 console.log('File content (first 100 chars):', content.substring(0, 100));
                 const metadata = extractMetadata(content);
                 console.log('Extracted metadata:', metadata);
-                populateFields(metadata);
+                
+                // Extract brand and device model from filename
+                const extracted = extractBrandAndModel(files[0].name);
+                console.log('Extracted from filename:', extracted);
+                
+                // Merge extracted data with metadata, prioritizing metadata
+                const mergedData = { ...extracted, ...metadata };
+                console.log('Merged data:', mergedData);
+                
+                populateFields(mergedData);
                 console.log('Fields populated');
                 resolve();
             };
@@ -1301,46 +1320,51 @@ function handleFileSelection(event) {
     });
 }
 
-/**
- * Auto-populate HTML fields with extracted metadata.
- * @param {Object} metadata - The extracted metadata.
- */
-function populateFields(metadata) {
-    console.log('Populating fields with metadata:', metadata);
+function populateFields(data) {
+    console.log('Populating fields with data:', data);
 
-    if (metadata.brand) {
-        console.log('Setting brand:', metadata.brand);
-        document.getElementById('brand').value = metadata.brand;
+    if (data.brand) {
+        console.log('Setting brand:', data.brand);
+        document.getElementById('brand').value = data.brand;
     }
-    if (metadata['remote model']) {
-        console.log('Setting remote model:', metadata['remote model']);
-        document.getElementById('remote-model').value = metadata['remote model'];
+    if (data['remote model']) {
+        console.log('Setting remote model:', data['remote model']);
+        document.getElementById('remote-model').value = data['remote model'];
+    } else {
+        // Clear the remote model field if it's not in the data
+        document.getElementById('remote-model').value = '';
     }
-    if (metadata['device model']) {
-        console.log('Setting device model:', metadata['device model']);
-        document.getElementById('device-model').value = metadata['device model'];
+    if (data['device model']) {
+        console.log('Setting device model:', data['device model']);
+        document.getElementById('device-model').value = data['device model'];
+    } else if (data.deviceModel) {
+        console.log('Setting device model from filename:', data.deviceModel);
+        document.getElementById('device-model').value = data.deviceModel;
+    } else {
+        // Clear the device model field if it's not in the data
+        document.getElementById('device-model').value = '';
     }
-    if (metadata['device type']) {
-        console.log('Setting device type:', metadata['device type']);
+    if (data['device type']) {
+        console.log('Setting device type:', data['device type']);
         const deviceTypeSelect = document.getElementById('device-type');
-        const option = Array.from(deviceTypeSelect.options).find(opt => opt.text.toLowerCase() === metadata['device type'].toLowerCase());
+        const option = Array.from(deviceTypeSelect.options).find(opt => opt.text.toLowerCase() === data['device type'].toLowerCase());
         if (option) {
             deviceTypeSelect.value = option.value;
         } else {
             console.log('No matching device type option found');
         }
     }
-    if (metadata.link) {
-        console.log('Setting link:', metadata.link);
-        document.getElementById('device-link').value = metadata.link;
+    if (data.link) {
+        console.log('Setting link:', data.link);
+        document.getElementById('device-link').value = data.link;
     }
-    if (metadata.description) {
-        console.log('Setting description:', metadata.description);
-        document.getElementById('device-description').value = metadata.description;
+    if (data.description) {
+        console.log('Setting description:', data.description);
+        document.getElementById('device-description').value = data.description;
     }
-    if (metadata.contributor) {
-        console.log('Setting contributor:', metadata.contributor);
-        document.getElementById('contributor-name').value = metadata.contributor;
+    if (data.contributor) {
+        console.log('Setting contributor:', data.contributor);
+        document.getElementById('contributor-name').value = data.contributor;
     }
 
     console.log('Field population complete');
