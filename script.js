@@ -986,11 +986,11 @@ function handleFileSelection(event) {
                 const metadata = extractMetadata(content);
                 console.log('Extracted metadata:', metadata);
                 
-                // Extract brand and model from filename
+                // Extract brand and device model from filename
                 const extracted = extractBrandAndModel(files[0].name);
                 console.log('Extracted from filename:', extracted);
                 
-                // Merge extracted data with metadata
+                // Merge extracted data with metadata, prioritizing metadata
                 const mergedData = { ...extracted, ...metadata };
                 console.log('Merged data:', mergedData);
                 
@@ -1063,6 +1063,56 @@ function processIRFiles() {
             return;
         }
 
+        // If only one file, process it directly without creating a ZIP
+        if (irFiles.length === 1) {
+            console.log('Processing single file');
+            const file = irFiles[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const fileContent = event.target.result;
+                    if (!isValidIRFile(fileContent)) {
+                        throw new Error(`Invalid IR file format: ${file.name}`);
+                    }
+                    const irData = parseIRFile(fileContent);
+                    const metadata = extractMetadata(fileContent);
+                    
+                    const userInput = getUserInput();
+                    const extracted = extractBrandAndModel(file.name);
+                    const deviceInfo = consolidateDeviceInfo(userInput, metadata, extracted);
+                    
+                    console.log('Using values:', deviceInfo);
+
+                    const processedContent = createIRContent(
+                        irData,
+                        deviceInfo.brand,
+                        deviceInfo.remoteModel,
+                        deviceInfo.deviceType,
+                        deviceInfo.deviceModel,
+                        deviceInfo.deviceTypeKey,
+                        deviceInfo.deviceLink,
+                        deviceInfo.deviceDescription,
+                        deviceInfo.contributorName
+                    );
+
+                    // Create a blob and download directly
+                    const blob = new Blob([processedContent], { type: 'text/plain' });
+                    saveAs(blob, file.name);
+                    console.log('Single file processed and downloaded');
+                } catch (error) {
+                    console.error(`Error processing file ${file.name}:`, error);
+                    alert(`Error processing file: ${error.message}`);
+                }
+            };
+            reader.onerror = error => {
+                console.error('Error reading file:', error);
+                alert(`Error reading file: ${error.message}`);
+            };
+            reader.readAsText(file);
+            return;
+        }
+
+        // Multiple files - create a ZIP
         const zip = new JSZip();
         const processFilePromises = irFiles.map((file, index) => processFile(file, index, irFiles.length, zip));
 
